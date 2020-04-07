@@ -117,6 +117,7 @@ class Grid {
 
 		}catch(IOException e){System.out.println("error on writing");}
 	}
+
 	private void loadWold(String filename){
 		try{
 			File f = new File(filename);
@@ -222,4 +223,11 @@ class Grid {
 				this.grass[g] = tmp_g[g];
 		}
 	}
+
+//	public void GridPrinter(){
+//		for (int[] row : this.mygrid)
+//			// converting each row as string
+//			// and then printing in a separate line
+//			System.out.println(Arrays.toString(row));
+//	}
 }

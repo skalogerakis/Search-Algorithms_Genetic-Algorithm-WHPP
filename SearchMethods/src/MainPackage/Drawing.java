@@ -108,10 +108,17 @@ public class Drawing extends Canvas{
 
 		if(step_sequence!=null){
 			k = 0;
+			boolean flag = false;
 			while(k<step_sequence.length){
 				g2.setColor(new  Color(34,139,34));
 				int i = step_sequence[k]%M;
 				int j = step_sequence[k]/M;
+
+				//UPDATE: Use this statement not to print the first cell steps(in steps arr we have some empty elements)
+				if( (i==0 && j == 0) && k!=0 ){
+					break;
+				}
+
 
 				try{
 					img = ImageIO.read(new File("img/walk.jpg")); 

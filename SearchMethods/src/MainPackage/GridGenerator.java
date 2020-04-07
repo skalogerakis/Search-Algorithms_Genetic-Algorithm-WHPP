@@ -6,12 +6,15 @@ package MainPackage; /**
 	term 		: 	Spring 2019-2020
 	date 		:   March 2020
 */
+import java.util.Arrays;
 import java.util.Random;
 import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.awt.Canvas;
+import java.util.stream.IntStream;
+import AlgoPackage.*;
 
 class GridGenerator{
 	public static void VisualizeGrid(String frame_name, int N, int M, int [] walls, int [] grass, int start_idx, int terminal_idx ){
@@ -54,7 +57,47 @@ class GridGenerator{
 		}
 		int N = mygrid.getNumOfRows();
 		int M = mygrid.getNumOfColumns();
-		VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mygrid.getStartidx(),mygrid.getTerminalidx());
+
+		//TODO visualize init maze
+//		VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mygrid.getStartidx(),mygrid.getTerminalidx());
+
+//		int[] start = mygrid.getStart();
+//		int[] terminal = mygrid.getTerminal();
+		int[] walls = mygrid.getWalls();
+		int[] grass = mygrid.getGrass();
+//		System.out.println("start: "+mygrid.getStart()[0]);
+//		System.out.println("startid: "+mygrid.getStartidx());
+//		System.out.println("terminal: "+mygrid.getTerminal()[0]);
+//		System.out.println("terminalid: "+mygrid.getTerminalidx());
+
+		int[][] tempArr = new int[N][M];
+
+		for(int i=0; i<N;i++) {
+			for (int j = 0; j < M; j++) {
+				int checker = i*M+j;
+				if(IntStream.of(mygrid.getStartidx()).anyMatch(x -> x == checker)){
+					tempArr[i][j] = 1;
+				}else if(IntStream.of(mygrid.getTerminalidx()).anyMatch(x -> x == checker)){
+					tempArr[i][j] = 9;
+				}else if(IntStream.of(grass).anyMatch(x -> x == checker)){
+					tempArr[i][j] = 4;
+				}else if(IntStream.of(walls).anyMatch(x -> x == checker)){
+					tempArr[i][j] = 5;
+				}else{
+					tempArr[i][j] = 3;
+				}
+
+			}
+		}
+
+		DFS mydfs = new DFS(mygrid.getStart()[0],mygrid.getStart()[1],N ,M,tempArr);
+
+		int[] steps = mydfs.getStepsMatrix();
+
+		VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),steps,mygrid.getStartidx(),mygrid.getTerminalidx());
+
+
+
 	}
 		
 }
