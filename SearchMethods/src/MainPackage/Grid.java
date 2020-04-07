@@ -9,6 +9,7 @@ package MainPackage; /**
 import java.util.Random;
 import java.io.*;
 import java.util.Arrays;
+import java.util.stream.IntStream;
 
 class Grid {
 	private int N=13,M=9;
@@ -90,7 +91,7 @@ class Grid {
 
 			bw.write("dimensions:"+this.N+"x"+this.M);
 			bw.newLine();
-			
+
 			String st2w = "";
 			st2w += "walls:"+this.walls.length+":";
 			for(int w=0; w<this.walls.length; w++){
@@ -157,7 +158,7 @@ class Grid {
 				param = br.readLine();
 			}
 
-		this.mygrid = new Cell[this.N][this.M];		
+		this.mygrid = new Cell[this.N][this.M];
 		}catch(IOException e){}
 	}
 	private void init(){
@@ -202,7 +203,7 @@ class Grid {
 		for (int w = 0; w < this.walls.length; w++){
 			int i = this.walls[w]/M;
 			int j = this.walls[w]%M;
-			this.mygrid[i][j].changeCellType('W', Integer.MAX_VALUE);	
+			this.mygrid[i][j].changeCellType('W', Integer.MAX_VALUE);
 		}
 
 		int count_g = 0;
@@ -215,13 +216,52 @@ class Grid {
 				this.mygrid[i][j].changeCellType('G', this.grass_cost);
 				tmp_g[count_g] = this.grass[g];
 				count_g += 1;
-			} 
+			}
 		}
 		if(count_g<this.grass.length){
 			this.grass = new int[count_g-1];
 			for (int g = 0; g < this.grass.length; g++)
 				this.grass[g] = tmp_g[g];
 		}
+	}
+
+	/**
+	 * Updated
+	 * This method returns the created array in a 2D array. Better for visualization
+	 * @return int[][]
+	 */
+	public int[][] gridto2D(){
+
+		/**
+		 * Encoding:
+		 * 1 used as starting point
+		 * 3 used as visiting nodes, ground
+		 * 4 used as visiting nodes, grass
+		 * 5 used as walls
+		 * 9 used as termination point
+		 * 7 used for nodes that are already visited
+		 */
+
+		int[][] myArr = new int[N][M];
+
+		for(int i=0; i<N;i++) {
+			for (int j = 0; j < M; j++) {
+				int checker = i*M+j;
+				if(IntStream.of(this.getStartidx()).anyMatch(x -> x == checker)){
+					myArr[i][j] = 1;
+				}else if(IntStream.of(this.getTerminalidx()).anyMatch(x -> x == checker)){
+					myArr[i][j] = 9;
+				}else if(IntStream.of(grass).anyMatch(x -> x == checker)){
+					myArr[i][j] = 4;
+				}else if(IntStream.of(walls).anyMatch(x -> x == checker)){
+					myArr[i][j] = 5;
+				}else{
+					myArr[i][j] = 3;
+				}
+
+			}
+		}
+		return myArr;
 	}
 
 //	public void GridPrinter(){

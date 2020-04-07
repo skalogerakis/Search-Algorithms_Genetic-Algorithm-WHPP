@@ -1,20 +1,17 @@
 package AlgoPackage;
 
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class DFS {
 
-    //We define starting point statically. We know it in our given code
-    //make everything global and static. TODO change that
-    //TODO also very important to figure out what to do with size
     static int sizeMatr = 5;
     int[][] sampleMatrix;
     int maxSizeRow;
     int maxSizeCol;
     int[] stepsMatrix;
+    int StartCoorX;
+    int StartCoorY;
 
 
     public DFS(int StartCoorX, int StartCoorY,int maxSizeRow,int maxSizeCol, int[][] myMatrix){
@@ -32,10 +29,10 @@ public class DFS {
         this.maxSizeRow = maxSizeRow;
         this.maxSizeCol = maxSizeCol;
         this.stepsMatrix = new int[(maxSizeCol+1)*(maxSizeRow+1)];
-
+        this.StartCoorX = StartCoorX;
+        this.StartCoorY = StartCoorY;
 
         printer(this.sampleMatrix);
-//        System.out.println(initArr.length+" ,"+ initArr.length);
         dfs(StartCoorX, StartCoorY);
 
         System.out.println("\n\n");
@@ -94,7 +91,7 @@ public class DFS {
     }
 
 
-
+    //2D array printer for debbuging purposes only
     public void printer(int arr[][])
     {
         // Loop through all rows
@@ -106,14 +103,11 @@ public class DFS {
 
     public int[] getStepsMatrix(){
         int counter=0;
-//        System.out.println(maxSizeCol);
-//        System.out.println(maxSizeRow);
 
         for(int i=0; i < maxSizeRow;i++){
             for (int j=0; j < maxSizeCol;j++){
-//                System.out.println(i);
-//                System.out.println(j);
-                if( sampleMatrix[i][j] == 7){
+
+                if( sampleMatrix[i][j] == 7 && !(this.StartCoorY==j && this.StartCoorX == i)){
 //                    System.out.println(i*maxSizeCol+j);
                     stepsMatrix[counter++] = i*maxSizeCol+j;
 

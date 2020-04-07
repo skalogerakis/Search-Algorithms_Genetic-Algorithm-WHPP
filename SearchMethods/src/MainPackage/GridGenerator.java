@@ -70,32 +70,20 @@ class GridGenerator{
 //		System.out.println("terminal: "+mygrid.getTerminal()[0]);
 //		System.out.println("terminalid: "+mygrid.getTerminalidx());
 
-		int[][] tempArr = new int[N][M];
 
-		for(int i=0; i<N;i++) {
-			for (int j = 0; j < M; j++) {
-				int checker = i*M+j;
-				if(IntStream.of(mygrid.getStartidx()).anyMatch(x -> x == checker)){
-					tempArr[i][j] = 1;
-				}else if(IntStream.of(mygrid.getTerminalidx()).anyMatch(x -> x == checker)){
-					tempArr[i][j] = 9;
-				}else if(IntStream.of(grass).anyMatch(x -> x == checker)){
-					tempArr[i][j] = 4;
-				}else if(IntStream.of(walls).anyMatch(x -> x == checker)){
-					tempArr[i][j] = 5;
-				}else{
-					tempArr[i][j] = 3;
-				}
-
-			}
-		}
-
-		DFS mydfs = new DFS(mygrid.getStart()[0],mygrid.getStart()[1],N ,M,tempArr);
+		int[][] grid2D = mygrid.gridto2D();
+//TODO dfs part done
+		DFS mydfs = new DFS(mygrid.getStart()[0],mygrid.getStart()[1],N ,M,grid2D);
 
 		int[] steps = mydfs.getStepsMatrix();
 
 		VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),steps,mygrid.getStartidx(),mygrid.getTerminalidx());
 
+//		BFS mybfs = new BFS(mygrid.getStart()[0],mygrid.getStart()[1],N ,M,grid2D);
+//
+//		int[] steps = mybfs.getStepsMatrix();
+//
+//		VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),steps,mygrid.getStartidx(),mygrid.getTerminalidx());
 
 
 	}
