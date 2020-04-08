@@ -73,11 +73,11 @@ class GridGenerator{
 
 		int[][] grid2D = mygrid.gridto2D();
 //TODO dfs part done
-		DFS mydfs = new DFS(mygrid.getStart()[0],mygrid.getStart()[1],N ,M,grid2D);
-
-		int[] steps = mydfs.getStepsMatrix();
-
-		VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),steps,mygrid.getStartidx(),mygrid.getTerminalidx());
+//		DFS mydfs = new DFS(mygrid.getStart()[0],mygrid.getStart()[1],N ,M,grid2D);
+//
+//		int[] steps = mydfs.getStepsMatrix();
+//
+//		VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),steps,mygrid.getStartidx(),mygrid.getTerminalidx());
 
 //		BFS mybfs = new BFS(mygrid.getStart()[0],mygrid.getStart()[1],N ,M,grid2D);
 //
@@ -85,6 +85,11 @@ class GridGenerator{
 //
 //		VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),steps,mygrid.getStartidx(),mygrid.getTerminalidx());
 
+		A_Star myAstar = new A_Star(mygrid.getStart()[0],mygrid.getStart()[1],mygrid.getTerminal()[0],mygrid.getTerminal()[1],N ,M,grid2D);
+
+		int[] steps = myAstar.getStepsMatrix();
+
+		VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),steps,mygrid.getStartidx(),mygrid.getTerminalidx());
 
 	}
 		
