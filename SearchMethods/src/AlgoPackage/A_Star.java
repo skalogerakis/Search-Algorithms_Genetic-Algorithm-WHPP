@@ -176,6 +176,8 @@ public class A_Star {
 
             }
 
+            //pseudocode
+            //https://gist.github.com/damienstanton/7de65065bf584a43f96a
 
             //https://github.com/hayalbaz/a-star-java/blob/master/src/Main.java
             SuccessorLoop:
@@ -183,10 +185,17 @@ public class A_Star {
                 //Check if a node with same coordinates exists in openList that has better cost estimate
                 //If so skip this node
                 //Since PriorityQueue.contains() is O(n) operation, we might as well check with a for loop
+//                if(openList.contains(successor)){
+//
+//                }
+//                else if(closedList.contains(successor)){
+//
+//                }
+//                else{
+//
+//                }
                 for (Node n: openList) {
-//                    if (successor.sameCoordinates(n) && n.calculateEstimate(gameMap.goal) > successor.calculateEstimate(gameMap.goal)) {
-//                        continue SuccessorLoop;
-//                    }
+
                     if (successor.curX == n.curX && successor.curY == n.curY &&  n.heuristicCost > successor.heuristicCost) {
                         continue SuccessorLoop;
                     }
