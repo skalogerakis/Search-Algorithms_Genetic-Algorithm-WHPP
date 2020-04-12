@@ -11,7 +11,7 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-class Grid {
+public class Grid {
 	private int N=13,M=9;
 	private Cell [][] mygrid = new Cell[N][M];
 

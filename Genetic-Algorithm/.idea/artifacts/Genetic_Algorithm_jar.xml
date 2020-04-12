@@ -2,7 +2,7 @@
   <artifact type="jar" name="Genetic-Algorithm:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/Genetic_Algorithm_jar</output-path>
     <root id="archive" name="Genetic-Algorithm.jar">
-      <element id="module-output" name="Genetic-Algorithm" />
+      <element id="module-output" name="Genetic-Algorithm-WHPP" />
     </root>
   </artifact>
 </component>

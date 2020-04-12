@@ -8,7 +8,7 @@ package MainPackage;
 	term 		: 	Spring 2019-2020
 	date 		:   March 2020
 */
-class Cell {
+public class Cell {
 	private int cost=1;
 
 	private boolean starting_point;

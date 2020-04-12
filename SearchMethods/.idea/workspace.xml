@@ -2,10 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="75e7e9b0-8317-46f1-9e21-bcb110dd1d78" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../Genetic-Algorithm/.idea/google-java-format.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/google-java-format.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Genetic-Algorithm/.idea/artifacts/Genetic_Algorithm_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Genetic-Algorithm/.idea/artifacts/Genetic_Algorithm_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Genetic-Algorithm/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Genetic-Algorithm/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Genetic-Algorithm/Genetic-Algorithm.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../Genetic-Algorithm/Genetic-Algorithm-WHPP.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Genetic-Algorithm/out/production/Genetic-Algorithm/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Genetic-Algorithm/out/production/Genetic-Algorithm/MainPackage/MainClass$1$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Genetic-Algorithm/out/production/Genetic-Algorithm/MainPackage/MainClass$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Genetic-Algorithm/out/production/Genetic-Algorithm/MainPackage/MainClass.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Genetic-Algorithm/src/MainPackage/MainClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Genetic-Algorithm/src/MainPackage/MainClass.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/newRandomLevel.world" beforeDir="false" afterPath="$PROJECT_DIR$/newRandomLevel.world" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SearchMethods/AlgoPackage/A_Star.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SearchMethods/AlgoPackage/A_Star.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AlgoPackage/A_Star.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AlgoPackage/A_Star.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MainPackage/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainPackage/Cell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MainPackage/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainPackage/Grid.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,10 +46,11 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/MainPackage" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/AlgoPackage" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/AlgoPackage" />
       <recent name="$PROJECT_DIR$/src/MainPackage" />
     </key>
   </component>
@@ -50,7 +60,7 @@
       <module name="SearchMethods" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="AlgoPackage.*" />
+          <option name="PATTERN" value="SearchGrid.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
