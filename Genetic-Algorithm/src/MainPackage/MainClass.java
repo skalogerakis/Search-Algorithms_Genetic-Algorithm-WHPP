@@ -24,7 +24,9 @@ public class MainClass {
 
         Constraints myConstr = new Constraints(x_Axis_Days,y_Axis_Employees, completePopulation);
 
-        myConstr.constraintChecker();
+        myConstr.feasibility();
+        int[] score = myConstr.fitness();
+        System.out.println("YOOOO");
     }
 
 }

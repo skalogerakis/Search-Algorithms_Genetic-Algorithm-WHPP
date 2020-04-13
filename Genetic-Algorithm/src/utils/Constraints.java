@@ -1,6 +1,7 @@
 package utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -29,14 +30,15 @@ public class Constraints {
 
     public void constraintChecker(){
         feasibility();
+        fitness();
     }
 
-    private void feasibility(){
+    public void feasibility(){
         int totalOneCounter=0;
         int totalTwoCounter=0;
         int totalThreeCounter=0;
         int itercounter=0;
-        boolean flag =false;
+        //boolean flag =false;
 //        for(int[][] pop : population){
         System.out.println("Init size "+this.population.size());
 
@@ -58,22 +60,16 @@ public class Constraints {
                 }
                 //Check if hard constraints are met. In the case above where there are not pop the element from the list. Leave only the
                 //ones we can use
-                //if(hardConstraints[0][i] != totalOneCounter || hardConstraints[1][i] != totalTwoCounter || hardConstraints[2][i] != totalThreeCounter){
-//                System.out.println(hardConstraints[0][i]);
-//                System.out.println(hardConstraints[1][i]);
-//                System.out.println(hardConstraints[2][i]);
 
-                //System.out.println(i);
-
-                //System.out.println();
                 if(hardConstraints[0][i] == totalOneCounter && hardConstraints[1][i] == totalTwoCounter && hardConstraints[2][i] == totalThreeCounter){
-                    System.out.println("FOUND ONE");
+                    //System.out.println("FOUND ONE");
                     itercounter++;
+                    totalOneCounter=0;
+                    totalTwoCounter=0;
+                    totalThreeCounter=0;
                     continue;
                 }else{
-                    //this.population.remove(k);
                     this.population.set(k, null);
-//                    flag = true;
                     //make counters zero again and go to the next population
                     totalOneCounter=0;
                     totalTwoCounter=0;
@@ -82,10 +78,6 @@ public class Constraints {
                 }
 
             }
-//            if(flag == true){
-//                this.population.set(k, null);
-//                flag = false;
-//            }
 
         }
 
@@ -93,6 +85,158 @@ public class Constraints {
         System.out.println(this.population.size());
         this.population.removeIf(Objects::isNull);
         System.out.println("Final size "+this.population.size());
+
+    }
+
+    public int[] fitness(){
+
+        int[] score = new int[this.population.size()];
+
+        for(int i=0; i < this.population.size(); i++){
+            int[][] pop = this.population.get(i);
+            if(i ==0){
+                System.out.println(Arrays.deepToString(pop).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+
+            }
+
+            int hoursWork;
+            int consecutiveDays;
+            int consecutiveNights;
+            boolean prevNight_nextMor;
+            boolean prevNoon_nextMor;
+            boolean prevNight_nextNoon;
+            int nightShifts;
+            int daysoff;
+            int daysworkcounter;
+            int consecutiveWeekends;
+            int offWorkoff;
+            int WorkoffWork;
+
+            for(int j=0;j<this.y_Employees;j++){
+                hoursWork = 0;
+                consecutiveDays = 0;
+                consecutiveNights = 0;
+                prevNight_nextMor=false;
+                prevNoon_nextMor=false;
+                prevNight_nextNoon = false;
+                nightShifts = 0;
+                daysoff=0;
+                daysworkcounter=0;
+                consecutiveWeekends=0;
+                offWorkoff=2;
+                WorkoffWork=2;
+
+                for(int k=0;k<this.x_Days;k++){
+                    if(pop[k][j] == 1){
+                        hoursWork += 8;
+                        consecutiveDays++;
+                        consecutiveNights=0;
+                        //In case shift night and next morning
+                        if(prevNight_nextMor){
+                            score[i] += 1000;
+                            prevNight_nextMor = false;
+                        }
+                        //In case shift noon and next morning
+                        if(prevNoon_nextMor){
+                            score[i] += 800;
+                            prevNoon_nextMor = false;
+                        }
+
+                        prevNight_nextNoon = false;
+                        daysworkcounter++;
+                        offWorkoff++;
+                        if(WorkoffWork == 1){
+                            score[i] += 1;
+                        }
+                        WorkoffWork=0;
+                    }else if(pop[k][j] == 2){
+                        hoursWork += 8;
+                        consecutiveDays++;
+                        consecutiveNights=0;
+                        prevNight_nextMor = false;
+                        prevNoon_nextMor = true;
+                        if(prevNight_nextNoon){
+                            score[i] += 800;
+                            prevNight_nextNoon = false;
+                        }
+                        daysworkcounter++;
+                        offWorkoff++;
+                        if(WorkoffWork == 1){
+                            score[0] += 1;
+                        }
+                        WorkoffWork=0;
+                    }else if(pop[k][j] == 3){
+                        hoursWork += 10;
+                        consecutiveDays++;
+                        consecutiveNights++;
+                        prevNight_nextMor = true;
+                        prevNoon_nextMor = false;
+                        prevNight_nextNoon = true;
+                        nightShifts++;
+                        daysworkcounter++;
+                        offWorkoff++;
+                        if(WorkoffWork == 1){
+                            score[i] += 1;
+                        }
+                        WorkoffWork=0;
+                    }else{
+                        consecutiveDays=0;
+                        consecutiveNights=0;
+                        prevNight_nextMor = false;
+                        prevNoon_nextMor = false;
+                        prevNight_nextNoon = false;
+                        daysoff++;
+                        //case employee works day off then works and then again day off
+                        if(offWorkoff == 1){
+                            score[i] += 1;
+                        }
+                        offWorkoff = 0;
+                        WorkoffWork++;
+                    }
+
+                    if((k == (this.x_Days/2 - 2) || k == (this.x_Days/2 - 1) || (k == this.x_Days - 2) || (k == this.x_Days - 1)) && pop[k][j]!=0){
+                        consecutiveWeekends++;
+                    }
+
+                }
+                //case employee works over 70 hours
+                if(hoursWork > 70){
+                    score[i] += 1000;
+                }
+
+                //case employee works over 7 consecutive days
+                if(consecutiveDays > 7){
+                    score[i] += 1000;
+                }
+
+                //case employee works over 4 consecutive night shifts
+                if(consecutiveNights > 4){
+                    score[i] += 1000;
+                }
+
+                //case employee works over 4 night shifts must be assigned with at least two days off
+                if(nightShifts >=4 && daysoff<2){
+                    score[i] += 100;
+                }
+
+                //case employee works over 7 days must be assigned with at least two days off
+                if(daysworkcounter >=7 && daysoff<2){
+                    score[i] += 100;
+                }
+
+                //case employee works both weekends(4 days)
+                if(consecutiveWeekends == 4){
+                    score[i] += 1;
+                }
+
+
+            }
+            //System.out.println(i+" SCORE "+","+score[i]);
+        }
+
+        //System.out.println(Arrays.deepToString(pop).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+
+        return score;
 
     }
 

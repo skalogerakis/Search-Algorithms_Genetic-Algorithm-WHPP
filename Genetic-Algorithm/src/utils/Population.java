@@ -5,7 +5,18 @@ import java.util.Random;
 
 public class Population {
     static int MIN = 0;
-    static int MAX = 3;
+    static int MAX = 29;
+
+    /**
+     * Hard Constraints as defined from assignment
+     */
+    static int[][] hardConstraints = {
+            {10, 10, 5, 5, 5, 5, 5, 10, 10, 5, 5, 5, 5, 5},
+            {10, 10, 10, 5, 10, 5, 5, 10, 10, 10, 5, 10, 5, 5},
+            {5, 5, 5, 5, 5, 5, 5, 10, 10, 10, 5, 10, 5, 5}
+    };
+
+
 
     //TODO use arraylist with 2d arrays to start. Always 3d array available
 
@@ -22,24 +33,61 @@ public class Population {
     public ArrayList<int[][]> population_generator(int size, int x_axis, int y_axis){
         //int[][][] popMatrix = new int[size][x_axis][y_axis];
         ArrayList<int[][]> popMatrix = new ArrayList<int[][]>();
-        Random random = new Random();
 
         for(int i=0; i<size; i++){
-            int[][] tempMatrix = new int[x_axis][y_axis];
-            for(int j=0; j<x_axis; j++){
-                for(int k=0; k<y_axis; k++){
-                    //popMatrix[i][j][k] = (int) (Math.random() * ((MAX - MIN) + 1)) + MIN;
-                    tempMatrix[j][k] = (int) (Math.random() * ((MAX - MIN) + 1)) + MIN;
-                    //tempMatrix[j][k] = random.ints(MIN,MAX+1).limit(1).findFirst().getAsInt();
+            int[][] tempMatrix = initMatrix(x_axis,y_axis);
 
+            for(int j=0; j<x_axis; j++){
+                Random rand = new Random();
+                //In 1 in 25 cases(4%) in x_axis(DAYS) change hard constraint assignment(make it invalid)
+                if( new Random().nextDouble() <= 0.04 ) {
+                    tempMatrix[j][0] = 0;
+                }
+                for(int k=0; k<y_axis; k++){
+                    //In 1 in 500 case change the hard constraint assignment(make it invalid)
+//                    if( new Random().nextDouble() <= 0.002 ) {
+//                        tempMatrix[j][k] = 0;
+//                    }
+                    int randomIndexToSwap = rand.nextInt(y_axis);
+                    int temp = tempMatrix[j][randomIndexToSwap];
+                    tempMatrix[j][randomIndexToSwap] = tempMatrix[j][k];
+                    tempMatrix[j][k] = temp;
 
                 }
             }
+
             popMatrix.add(tempMatrix);
+
+
         }
 
         System.out.println("Population generated successfully.");
         return popMatrix;
 
+    }
+
+    private int[][] initMatrix(int x_axis, int y_axis){
+
+        int[][] tempMatrix = new int[x_axis][y_axis];
+
+        for(int j=0; j<x_axis; j++){
+            int oneCounter = 0;
+            int twoCounter = 0;
+            int threeCounter = 0;
+            for(int k=0; k<y_axis; k++){
+                if(hardConstraints[0][j] != oneCounter){
+                    tempMatrix[j][k] = 1;
+                    oneCounter++;
+                }else if(hardConstraints[1][j] != twoCounter){
+                    tempMatrix[j][k] = 2;
+                    twoCounter++;
+                }else if(hardConstraints[2][j] != threeCounter){
+                    tempMatrix[j][k] = 3;
+                    threeCounter++;
+                }
+            }
+        }
+
+        return tempMatrix;
     }
 }
