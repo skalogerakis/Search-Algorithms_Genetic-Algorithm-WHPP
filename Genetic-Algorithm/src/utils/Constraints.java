@@ -33,7 +33,7 @@ public class Constraints {
         fitness();
     }
 
-    public void feasibility(){
+    public ArrayList<int[][]> feasibility(){
         int totalOneCounter=0;
         int totalTwoCounter=0;
         int totalThreeCounter=0;
@@ -81,10 +81,11 @@ public class Constraints {
 
         }
 
-        System.out.println("ITER "+itercounter);
-        System.out.println(this.population.size());
+        //System.out.println("ITER "+itercounter);
+        //System.out.println(this.population.size());
         this.population.removeIf(Objects::isNull);
-        System.out.println("Final size "+this.population.size());
+        //System.out.println("Final size "+this.population.size());
+        return population;
 
     }
 
@@ -94,10 +95,10 @@ public class Constraints {
 
         for(int i=0; i < this.population.size(); i++){
             int[][] pop = this.population.get(i);
-            if(i ==0){
-                System.out.println(Arrays.deepToString(pop).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
-
-            }
+//            if(i ==0){
+//                System.out.println(Arrays.deepToString(pop).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+//
+//            }
 
             int hoursWork;
             int consecutiveDays;
