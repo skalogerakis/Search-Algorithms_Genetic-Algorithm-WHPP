@@ -39,8 +39,8 @@ public class Mutation {
             rand2 = (int) (Math.random() * ((MAX - MIN) + 1)) + MIN;
         }while (rand1 == rand2);
 
-        System.out.println("Rand1 "+rand1);
-        System.out.println("Rand2 "+rand2);
+//        System.out.println("Rand1 "+rand1);
+//        System.out.println("Rand2 "+rand2);
 
         int tempArr[] = new int[this.y_axis];
         int firstVal = -1;
@@ -68,7 +68,7 @@ public class Mutation {
 
     }
 
-    public void twoPointSwapping(){
+    public int[][] twoPointSwapping(){
 
 
         int[][] child = this.parent.clone();
@@ -78,8 +78,8 @@ public class Mutation {
         int randx, randxnext;
         int randy, randynext;
 
-        System.out.println("\n\nBefore mutation");
-        System.out.println(Arrays.deepToString(child).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+//        System.out.println("\n\nBefore mutation");
+//        System.out.println(Arrays.deepToString(child).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
         do{
             randx = (int) (Math.random() * ((xMAX - MIN) + 1)) + MIN;
@@ -89,10 +89,10 @@ public class Mutation {
 
         }while (randx == randxnext && randy == randynext);
 
-        System.out.println("\n\nRandx "+randx);
-        System.out.println("Randy "+randy);
-        System.out.println("Randxnext "+randxnext);
-        System.out.println("Randynext "+randynext);
+//        System.out.println("\n\nRandx "+randx);
+//        System.out.println("Randy "+randy);
+//        System.out.println("Randxnext "+randxnext);
+//        System.out.println("Randynext "+randynext);
         //TODO Generate a random number. If random number larger than mutation rate proceed
 
 
@@ -115,10 +115,10 @@ public class Mutation {
             }
         }
 
-        System.out.println("\n\nAfter mutation");
-        System.out.println(Arrays.deepToString(child).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+//        System.out.println("\n\nAfter mutation");
+//        System.out.println(Arrays.deepToString(child).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
-
+        return child;
     }
 
 }

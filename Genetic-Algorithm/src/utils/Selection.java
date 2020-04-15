@@ -1,7 +1,7 @@
 package utils;
 
 import java.util.ArrayList;
-
+import java.util.Random;
 
 
 public class Selection {
@@ -29,7 +29,7 @@ public class Selection {
         int MAX = totalSum;
 
         int rand = (int) (Math.random() * ((MAX - MIN) + 1)) + MIN;
-        System.out.println("SUM "+totalSum+" rand "+rand);
+        //System.out.println("SUM "+totalSum+" rand "+rand);
 
         int partialSum = 0;
 
@@ -43,6 +43,38 @@ public class Selection {
         }
 
         //Something went wrong to reach this point
+        return -1;
+    }
+
+    public int rouletteWheelSelectionF(ArrayList<int[][]> population, int[] score){
+        double totalSum = 0.0d;
+
+        for(int i = 0; i < population.size(); i++){
+            totalSum += (double) 1/score[i];
+        }
+        double MAX = totalSum;
+
+        Random r = new Random();
+        double rand = MIN + (MAX - MIN) * r.nextDouble();
+
+
+        //double rand = (Math.random() * ((MAX - MIN) + 1)) + MIN;
+        //System.out.println("SUM "+totalSum+" rand "+rand);
+
+        double partialSum = 0.0d;
+
+        for(int j = 0; j < population.size(); j++){
+            partialSum += (double) 1/score[j];
+            //System.out.println("PARTIAL SUM "+partialSum+" rand "+rand);
+
+            if(Double.compare(partialSum,rand) >= 0){
+                //System.out.println("j "+j);
+                return j;
+            }
+        }
+
+        //Something went wrong to reach this point
+        System.out.println("ERROR HERE CHECK");
         return -1;
     }
 }
