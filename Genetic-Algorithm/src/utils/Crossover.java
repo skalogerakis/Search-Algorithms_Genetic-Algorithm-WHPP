@@ -33,7 +33,7 @@ public class Crossover {
 //        System.out.println(Arrays.deepToString(this.parentNode2).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
 
-        int MAX = this.x_axis;
+        int MAX = this.x_axis-1;
         int rand = (int) (Math.random() * ((MAX - MIN) + 1)) + MIN;
 
         //System.out.println("Random "+ rand);
@@ -78,12 +78,12 @@ public class Crossover {
 //        System.out.println("\n\nParent Node 2");
 //        System.out.println(Arrays.deepToString(this.parentNode2).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
-        int MAX = this.x_axis;
+        int MAX = this.x_axis-1;
 
         LinkedList<Integer> breakpoints = new LinkedList<>();
         for(int r = 0; r < MULTIBREAK; r++){
             int rand = (int) (Math.random() * ((MAX - MIN) + 1)) + MIN;
-            System.out.println("Random "+ rand);
+            //System.out.println("Random "+ rand);
             //IMPORTANT: Do not add duplicate values
             if (!breakpoints.contains(rand)) breakpoints.add(rand);
         }

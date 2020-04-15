@@ -28,10 +28,7 @@ public class Constraints {
         this.population = population;
     }
 
-    public void constraintChecker(){
-        feasibility();
-        fitness();
-    }
+
 
     public ArrayList<int[][]> feasibility(){
         int totalOneCounter=0;
