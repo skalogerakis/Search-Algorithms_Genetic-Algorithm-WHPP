@@ -3,7 +3,7 @@ package AlgoPackage;
 import java.util.Arrays;
 import java.util.List;
 
-public class DFS {
+public class _DFS {
 
     static int sizeMatr = 5;
     int[][] sampleMatrix;
@@ -14,7 +14,7 @@ public class DFS {
     int StartCoorY;
 
 
-    public DFS(int StartCoorX, int StartCoorY,int maxSizeRow,int maxSizeCol, int[][] myMatrix){
+    public _DFS(int StartCoorX, int StartCoorY, int maxSizeRow, int maxSizeCol, int[][] myMatrix){
 
         /**
          * UPDATED:

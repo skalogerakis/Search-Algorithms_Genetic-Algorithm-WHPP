@@ -14,6 +14,7 @@ import java.util.stream.IntStream;
 public class Grid {
 	private int N=13,M=9;
 	private Cell [][] mygrid = new Cell[N][M];
+	private boolean [][] mygridvisited = new boolean[N][M];
 
 	private int [] walls;
 	private int [] grass;
@@ -21,6 +22,7 @@ public class Grid {
 	private int start_idx = 96;
 	private int terminal_idx = 42;
 	private int grass_cost = 2;
+	private Cell parentCell;
 
 	Grid(){
 		this.init();
@@ -30,6 +32,7 @@ public class Grid {
 		this.N = N;
 		this.M = M;
 		this.mygrid = new Cell[N][M];
+		this.mygridvisited = new boolean[N][M];
 		this.init();
 		this.storeWorld();
 	}
@@ -46,23 +49,35 @@ public class Grid {
 		for (int i = 0; i<this.N; i++){
 			for(int j = 0; j<this.M; j++){
 				this.mygrid[i][j] = new Cell('L',((i*this.M+j)==this.start_idx), ((i*this.M+j)==this.terminal_idx),1);
+				this.mygridvisited[i][j] = false;
 			}
 		}
 		for (int w = 0; w < this.walls.length; w++){
 			int i = this.walls[w]/this.M;
 			int j = this.walls[w]%this.M;
 			this.mygrid[i][j].changeCellType('W', Integer.MAX_VALUE);
+			this.mygridvisited[i][j] = false;
 		}
 		for (int g = 0; g < this.grass.length; g++){
 			int i = this.grass[g]/this.M;
 			int j = this.grass[g]%this.M;
 			this.mygrid[i][j].changeCellType('G', this.grass_cost);
+			this.mygridvisited[i][j] = false;
 		}
 	}
 
 	public Cell getCell(int i, int j){
 		return this.mygrid[i][j];
 	}
+
+	public boolean isCellVisited(int x, int y){
+		return this.mygridvisited[x][y];
+	}
+	public void setCellVisited(int x, int y){
+		this.mygridvisited[x][y] = true;
+	}
+
+
 	public int[] getStart(){
 		int [] idx = new int[2];
 		idx[0] = this.start_idx/M;
@@ -159,6 +174,7 @@ public class Grid {
 			}
 
 		this.mygrid = new Cell[this.N][this.M];
+			this.mygridvisited = new boolean[this.N][this.M];
 		}catch(IOException e){}
 	}
 	private void init(){
@@ -197,6 +213,7 @@ public class Grid {
 		for (int i = 0; i<this.N; i++){
 			for(int j = 0; j<this.M; j++){
 				this.mygrid[i][j] = new Cell('L',((i*this.M+j)==this.start_idx), ((i*this.M+j)==this.terminal_idx),1);
+				this.mygridvisited[i][j] = false;
 			}
 		}
 
@@ -204,6 +221,7 @@ public class Grid {
 			int i = this.walls[w]/M;
 			int j = this.walls[w]%M;
 			this.mygrid[i][j].changeCellType('W', Integer.MAX_VALUE);
+			this.mygridvisited[i][j] = false;
 		}
 
 		int count_g = 0;
@@ -214,6 +232,7 @@ public class Grid {
 			int j = this.grass[g]%M;
 			if(! this.mygrid[i][j].isWall()){
 				this.mygrid[i][j].changeCellType('G', this.grass_cost);
+				this.mygridvisited[i][j] = false;
 				tmp_g[count_g] = this.grass[g];
 				count_g += 1;
 			}

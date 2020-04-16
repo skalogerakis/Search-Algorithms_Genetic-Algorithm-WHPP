@@ -6,7 +6,7 @@ import java.util.*;
 
 import static java.lang.Math.sqrt;
 
-public class A_Star {
+public class _A_Star {
 
     int[][] sampleMatrix;
     int maxSizeRow;
@@ -69,7 +69,7 @@ public class A_Star {
         }
     }
 
-    public A_Star(int StartCoorX, int StartCoorY,int FinishCoorX, int FinishCoorY, int maxSizeRow, int maxSizeCol, int[][] myMatrix){
+    public _A_Star(int StartCoorX, int StartCoorY, int FinishCoorX, int FinishCoorY, int maxSizeRow, int maxSizeCol, int[][] myMatrix){
 
         /**
          * UPDATED:
