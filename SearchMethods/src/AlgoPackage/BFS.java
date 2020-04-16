@@ -39,10 +39,10 @@ public class BFS {
             return "Position: (" + this.curX + "," + this.curX + ") - " + "Visited: " + this.visited + "\nCost till now: " + bestPathCost;
         }
 
-//        public int getPath_till_cost() {
-//            return bestPathCost;
-//        }
-
+        /**
+         * Setters Getters for parents
+         * @return
+         */
         public Nodes getParent() {
             return parent;
         }
@@ -64,16 +64,15 @@ public class BFS {
     }
 
 
-    public int[] _BFS(){
+    //TODO add for everything the same direction in the end. Change return and add comment.
+    public int[] BFS_search(){
 
         LinkedList <Nodes> queue = new LinkedList<Nodes>();
 
         Nodes start = new Nodes(this.startingX,this.startingY,false,1);
 
         queue.add(start);
-        //start.setVisited(true);
         this.visitedList.add(start);
-        grid.getCell(start.curX,start.curY).setVisited(true);
         this.grid.setCellVisited(this.startingX,this.startingY);
 
         /**
@@ -87,10 +86,8 @@ public class BFS {
 
 
             if(isValid(curNode.curX-1,curNode.curY)){
-                grid.getCell(curNode.curX-1,curNode.curY).setVisited(true);
                 this.grid.setCellVisited(curNode.curX-1,curNode.curY);
                 Nodes temp = new Nodes(curNode.curX-1,curNode.curY,true,curNode.bestPathCost + this.curCost);
-                //System.out.println("NEW "+temp.toString());
                 queue.add(temp);
                 temp.setParent(curNode);
 
@@ -104,11 +101,8 @@ public class BFS {
             }
 
             if(isValid(curNode.curX,curNode.curY-1)){
-                grid.getCell(curNode.curX,curNode.curY-1).setVisited(true);
                 this.grid.setCellVisited(curNode.curX,curNode.curY-1);
-                //this.visited.add(curNode);
                 Nodes temp = new Nodes(curNode.curX,curNode.curY-1,true,curNode.bestPathCost + this.curCost);
-                //System.out.println("NEW "+temp.toString());
                 queue.add(temp);
                 temp.setParent(curNode);
 
@@ -123,12 +117,9 @@ public class BFS {
             }
 
 
-
             if(isValid(curNode.curX,curNode.curY+1)){
-                grid.getCell(curNode.curX,curNode.curY+1).setVisited(true);
                 this.grid.setCellVisited(curNode.curX,curNode.curY+1);
                 Nodes temp = new Nodes(curNode.curX,curNode.curY+1,true,curNode.bestPathCost + this.curCost);
-                //System.out.println("NEW "+temp.toString());
                 queue.add(temp);
                 temp.setParent(curNode);
 
@@ -145,10 +136,8 @@ public class BFS {
 
             if(isValid(curNode.curX+1,curNode.curY)){
                 this.grid.setCellVisited(curNode.curX+1,curNode.curY);
-                grid.getCell(curNode.curX+1,curNode.curY).setVisited(true);
 
                 Nodes temp = new Nodes(curNode.curX+1,curNode.curY,true,curNode.bestPathCost + this.curCost);
-                //System.out.println("NEW "+temp.toString());
                 queue.add(temp);
                 temp.setParent(curNode);
 
@@ -168,10 +157,6 @@ public class BFS {
 
     private boolean isValid(int nextX, int nextY){
         try {
-//            if(this.grid.getCell(nextX,nextY).isWall() || this.grid.getCell(nextX,nextY).isVisited() || nextX < 0 || nextX >= this.grid.getNumOfRows() || nextY < 0 || nextY >= this.grid.getNumOfColumns() ){
-//                this.curCost = -1;
-//                return false;
-//            }
 
             if(this.grid.getCell(nextX,nextY).isWall() || this.grid.isCellVisited(nextX,nextY) || nextX < 0 || nextX >= this.grid.getNumOfRows() || nextY < 0 || nextY >= this.grid.getNumOfColumns() ){
                 this.curCost = -1;
@@ -195,7 +180,7 @@ public class BFS {
 
     /**
      * Function created for visualization purposes in the Drawing. It demanded a 1d array with all the steps required
-     * to reach the final goal
+     * to reach the final goal(Only the best path)
      * @return
      */
     public int[] getStepsMatrix() {
@@ -224,6 +209,11 @@ public class BFS {
         return stepsMatrix;
     }
 
+    /**
+     * Function created for visualization purposes in the Drawing. It demanded a 1d array with all the steps required
+     * to reach the final goal(All visited nodes)
+     * @return
+     */
     public int[] getAllStepsMatrix() {
 
         int counter = 0;
@@ -231,7 +221,7 @@ public class BFS {
 
         for(int i = 0; i< this.grid.getNumOfRows();i++){
             for(int j = 0; j < this.grid.getNumOfColumns();j++){
-                if(this.grid.getCell(i,j).isVisited() && !this.grid.getCell(i,j).isStart() && !this.grid.getCell(i,j).isTerminal()){
+                if(this.grid.isCellVisited(i,j) && !this.grid.getCell(i,j).isStart() && !this.grid.getCell(i,j).isTerminal()){
                     stepsMatrix[counter] = i * this.grid.getNumOfColumns() + j;
                     totalCost += this.grid.getCell(i,j).getCost();
                     counter++;

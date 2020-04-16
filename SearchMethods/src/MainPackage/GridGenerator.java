@@ -59,7 +59,7 @@ class GridGenerator{
 		int M = mygrid.getNumOfColumns();
 
 		//TODO visualize init maze
-		VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mygrid.getStartidx(),mygrid.getTerminalidx());
+		//VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mygrid.getStartidx(),mygrid.getTerminalidx());
 
 //		int[] start = mygrid.getStart();
 //		int[] terminal = mygrid.getTerminal();
@@ -73,34 +73,61 @@ class GridGenerator{
 
 		int[][] grid2D = mygrid.gridto2D();
 
-//TODO dfs part done
 //		_DFS mydfs = new _DFS(mygrid.getStart()[0],mygrid.getStart()[1],N ,M,grid2D);
 //
 //		int[] steps = mydfs.getStepsMatrix();
 //
 //		VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),steps,mygrid.getStartidx(),mygrid.getTerminalidx());
+
+		/*TODO only details left for BFS
 		BFS mybfs = new BFS(mygrid, mygrid.getStart()[0],mygrid.getStart()[1]);
 
-		int BFSResult[] = mybfs._BFS();
+		int BFSResult[] = mybfs.BFS_search();
 
 		if(BFSResult[0] == 0) System.out.println("\nBFS Algorithm could not found route!\n");
 
 		else System.out.println("\nMYYYY BFS Algorithm found route with cost: " + BFSResult[1] + " steps");
 
+
 		GridGenerator.VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mybfs.getAllStepsMatrix(),mygrid.getStartidx(),mygrid.getTerminalidx());
+		*/
+
+		/*Todo details left similar to bfs
+		DFS mydfs = new DFS(mygrid, mygrid.getStart()[0],mygrid.getStart()[1]);
+
+		int DFSResult[] = mydfs.DFS_Search();
+
+		if(DFSResult[0] == 0) System.out.println("\nBFS Algorithm could not found route!\n");
+
+		else System.out.println("\nMYYYY BFS Algorithm found route with cost: " + DFSResult[1] + " steps");
 
 
-//		_BFS mybfs = new _BFS(mygrid.getStart()[0],mygrid.getStart()[1],N ,M,grid2D);
-//
-//		int[] steps = mybfs.getStepsMatrix();
-//
-//		VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),steps,mygrid.getStartidx(),mygrid.getTerminalidx());
+		GridGenerator.VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mydfs.getAllStepsMatrix(),mygrid.getStartidx(),mygrid.getTerminalidx());
+		*/
 
-//		_A_Star myAstar = new _A_Star(mygrid.getStart()[0],mygrid.getStart()[1],mygrid.getTerminal()[0],mygrid.getTerminal()[1],N ,M,grid2D);
-//
-//		int[] steps = myAstar.getStepsMatrix();
-//
-//		VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),steps,mygrid.getStartidx(),mygrid.getTerminalidx());
+		/*todo details left here
+		A_Star mystar = new A_Star(mygrid, mygrid.getStart()[0],mygrid.getStart()[1]);
+
+		int StarResult[] = mystar.A_StarSearch();
+
+		if(StarResult[0] == 0) System.out.println("\nBFS Algorithm could not found route!\n");
+
+		else System.out.println("\nMYYYY BFS Algorithm found route with cost: " + StarResult[1] + " steps");
+
+
+		GridGenerator.VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mystar.getAllStepsMatrix(),mygrid.getStartidx(),mygrid.getTerminalidx());
+		*/
+		LRTA_Star mystar = new LRTA_Star(mygrid, mygrid.getStart()[0],mygrid.getStart()[1]);
+
+		int StarResult[] = mystar.LRTA_StarSearch();
+
+		if(StarResult[0] == 0) System.out.println("\nBFS Algorithm could not found route!\n");
+
+		else System.out.println("\nMYYYY BFS Algorithm found route with cost: " + StarResult[1] + " steps");
+
+
+		GridGenerator.VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mystar.getAllStepsMatrix(),mygrid.getStartidx(),mygrid.getTerminalidx());
+
 
 	}
 		
