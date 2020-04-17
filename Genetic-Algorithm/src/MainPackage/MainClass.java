@@ -1,9 +1,13 @@
 package MainPackage;
 
+
+import org.knowm.xchart.SwingWrapper;
+import org.knowm.xchart.XYChart;
+import org.knowm.xchart.demo.charts.ExampleChart;
 import utils.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 
 public class MainClass {
 
@@ -16,41 +20,44 @@ public class MainClass {
 
     static int population = 5000;
 
+
     public static void main(String args[]) {
 
+        ArrayList<Double> bestChrom = new ArrayList<Double>();
+        ArrayList<Double> avgChrom = new ArrayList<Double>();
+
         Population mypop = new Population();
+
         //Generate population in pseudorandom fashion
         ArrayList<int[][]> _initpopulation = mypop.population_generator(population,x_Axis_Days,y_Axis_Employees);
 
-        //System.out.println(completePopulation.size());
-
-        Constraints initConstr = new Constraints(x_Axis_Days,y_Axis_Employees, _initpopulation);
+        Constraints constraints = new Constraints(x_Axis_Days,y_Axis_Employees, _initpopulation);
 
         //From constraint class first check feasibility(hard constraints) and then fitness(soft constraints)
-        ArrayList<int[][]> population = initConstr.feasibility();
+        ArrayList<Statistics> populationData = constraints.constraintChecker();
 
-        ArrayList<Stats> stats = initConstr.fitness();
-
-        System.out.println("SIZEEE "+population.size());
+        bestChrom.add((double)Collections.min(populationData, Statistics.scoreComparator).getScore());
+        avgChrom.add(populationData.stream().mapToDouble(val -> val.getScore()).average().orElse(0.0));
+        System.out.println("SIZEEE "+populationData.size());
 
 
         //CHECHED FITNESS FEASIBILITY FOUND BEST AND AVG NOW PROCEED NEW GENERATION
 
 
         for(int s = 0; s < ITERATIONS ; s++){
-            ArrayList<int[][]> newpopulation = new ArrayList<>();
+            ArrayList<int[][]> nextgenpop = new ArrayList<>();
             ArrayList<int[][]> halfpopulation = new ArrayList<>();
             System.out.println(s);
-            for(int i = 0; i < population.size(); i++){
+            for(int i = 0; i < populationData.size(); i++){
 
                 //APPLY EVERYTHING NO PROBABILITIES YET
-                if(i < population.size()/2){
-                    Stats ms = stats.get(i);
-                    newpopulation.add(ms.getPopulation());
+                Statistics dataStats = populationData.get(i);
+
+                if(i < populationData.size()/2){
+                    nextgenpop.add(dataStats.getPopulation());
                     continue;
                 }else {
-                    Stats ms = stats.get(i);
-                    halfpopulation.add(ms.getPopulation());
+                    halfpopulation.add(dataStats.getPopulation());
                 }
 
                 Selection newSelection = new Selection();
@@ -58,15 +65,18 @@ public class MainClass {
                 int parent1;
                 int parent2;
                 do{
-                    parent1 = newSelection.rouletteWheelSelectionF(halfpopulation,stats);
+                    parent1 = newSelection.rouletteWheelSelectionF(halfpopulation,populationData);
                     //System.out.println("Parent1 "+parent1);
-                    parent2 = newSelection.rouletteWheelSelectionF(halfpopulation,stats);
+                    parent2 = newSelection.rouletteWheelSelectionF(halfpopulation,populationData);
                    // System.out.println("Parent2 "+parent2);
                 }while (parent1 == parent2);
 
                 //Crossover implementation
                 //Crossover crossover = new Crossover(population.get(parent1),population.get(parent2),x_Axis_Days,y_Axis_Employees);
-                Crossover crossover = new Crossover(population.get(parent1),population.get(parent2),x_Axis_Days,y_Axis_Employees);
+                Statistics par1 = populationData.get(parent1);
+                Statistics par2 = populationData.get(parent2);
+
+                Crossover crossover = new Crossover(par1.getPopulation(),par2.getPopulation(),x_Axis_Days,y_Axis_Employees);
 
                 int[][] child = crossover.singlePointCross();
 
@@ -83,29 +93,43 @@ public class MainClass {
                 child = mutation.InverseDays();
                 //child = mutation.twoPointSwapping();
 
-                newpopulation.add(child);
+                nextgenpop.add(child);
 
             }
 
-            System.out.println("NEW POP "+newpopulation.size());
-            Constraints newConstr = new Constraints(x_Axis_Days,y_Axis_Employees, newpopulation);
-            if(newpopulation.size() <= 1) break;
-
-            ArrayList<int[][]> mpopulation = newConstr.feasibility();
-
-            ArrayList<Stats> tempScore = newConstr.fitness();
-
-            System.out.println("SIZEEE "+population.size());
+            System.out.println("NEW POP "+nextgenpop.size());
+            Constraints newConstr = new Constraints(x_Axis_Days,y_Axis_Employees, nextgenpop);
+            if(nextgenpop.size() <= 1) break;
 
 
+            populationData = newConstr.constraintChecker();
+            bestChrom.add((double)Collections.min(populationData, Statistics.scoreComparator).getScore());
+            avgChrom.add(populationData.stream().mapToDouble(val -> val.getScore()).average().orElse(0.0));
+            System.out.println("SIZEEE "+populationData.size());
+
+            System.out.println("Iteration completed "+s);
             System.out.println("\n\n");
-            stats = tempScore;
-            population = mpopulation;
+            //populationData = tempScore;
         }
 
-        //TODO CHECK THAT parent1 and paretn2 are not -1
+        System.out.println("Best and average score per generation");
+        for(int g = 0; g < bestChrom.size(); g++){
+            System.out.println("Generation :"+ g + ", Best score: "+bestChrom.get(g)+", Average score: "+avgChrom.get(g));
+        }
+
+        //Show my chart
+        ExampleChart<XYChart> myChart = new Chart(bestChrom);
+        XYChart chart = myChart.getChart();
+        new SwingWrapper<XYChart>(chart).displayChart();
+
+        ExampleChart<XYChart> myChart2 = new Chart(avgChrom);
+        XYChart chart2 = myChart2.getChart();
+        new SwingWrapper<XYChart>(chart2).displayChart();
+
 
     }
+
+
 
 
 }

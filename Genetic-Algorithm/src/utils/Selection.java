@@ -2,7 +2,6 @@ package utils;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.stream.DoubleStream;
 
 
 public class Selection {
@@ -79,7 +78,7 @@ public class Selection {
         return -1;
     }
 
-    public int rouletteWheelSelectionF(ArrayList<int[][]> population, ArrayList<Stats> score){
+    public int rouletteWheelSelectionF(ArrayList<int[][]> population, ArrayList<Statistics> score){
         double totalSum = 0.0d;
 
         totalSum += score.stream().mapToDouble(stat -> (double) 1 / stat.getScore()).sum();
@@ -98,7 +97,7 @@ public class Selection {
 
         double partialSum = 0.0d;
 
-        for(Stats stat : score){
+        for(Statistics stat : score){
             partialSum += (double) 1/stat.getScore();
             if(Double.compare(partialSum,rand) >= 0){
                 //System.out.println("ID "+stat.id+" index "+score.indexOf(stat));

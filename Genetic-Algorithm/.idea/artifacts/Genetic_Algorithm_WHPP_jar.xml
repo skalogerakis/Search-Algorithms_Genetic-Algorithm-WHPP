@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Genetic-Algorithm-WHPP:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Genetic_Algorithm_WHPP_jar</output-path>
+    <root id="archive" name="Genetic-Algorithm-WHPP.jar">
+      <element id="module-output" name="Genetic-Algorithm-WHPP" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/xchart-3.6.2/xchart-3.6.2/xchart-3.6.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/xchart-3.6.2/xchart-3.6.2/xchart-demo-3.6.2.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

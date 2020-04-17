@@ -25,6 +25,11 @@ public class Constraints {
         this.population = population;
     }
 
+    public ArrayList<Statistics> constraintChecker(){
+        feasibility();
+        return fitness();
+    }
+
 
 
     public ArrayList<int[][]> feasibility(){
@@ -72,8 +77,7 @@ public class Constraints {
 
         }
 
-        //System.out.println("ITER "+itercounter);
-        //System.out.println(this.population.size());
+
         this.population.removeIf(Objects::isNull);
         //System.out.println("Final size "+this.population.size());
         return population;
@@ -85,12 +89,12 @@ public class Constraints {
 //
 //        int[] score = new int[this.population.size()];
 //        ArrayList<Integer> scoreList = new ArrayList<>();
-//        ArrayList<Stats> statList = new ArrayList<Stats>();
+//        ArrayList<Statistics> statList = new ArrayList<Statistics>();
 //
 //        for(int i=0; i < this.population.size(); i++){
 //
 //            int[][] pop = this.population.get(i);
-//            Stats mystats = new Stats(i, 0, pop);
+//            Statistics mystats = new Statistics(i, 0, pop);
 //            score[i] = 0;
 //            scoreList.add(i,0);
 ////            myscore.put(1,new Entry)
@@ -267,21 +271,21 @@ public class Constraints {
 //        System.out.println("MAX VALUE "+ Collections.max( scoreList));
 //        System.out.println("AVG VALUE "+ scoreList.stream().mapToDouble(val -> val).average().orElse(0.0));
 //
-//        Collections.sort(statList,Stats.scoreComparator);
-//        System.out.println("MIN VALUE "+ Collections.min(statList,Stats.scoreComparator).getScore());
+//        Collections.sort(statList,Statistics.scoreComparator);
+//        System.out.println("MIN VALUE "+ Collections.min(statList,Statistics.scoreComparator).getScore());
 ////        score
 //        return score;
 //
 //    }
 
-    public ArrayList<Stats> fitness(){
+    public ArrayList<Statistics> fitness(){
 
-        ArrayList<Stats> statList = new ArrayList<Stats>();
+        ArrayList<Statistics> statList = new ArrayList<Statistics>();
 
         for(int i=0; i < this.population.size(); i++){
 
             int[][] pop = this.population.get(i);
-            Stats mystats = new Stats(i, 0, pop);
+            Statistics mystats = new Statistics(i, 0, pop);
 
 //            if(i ==0){
 //                System.out.println(Arrays.deepToString(pop).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
@@ -427,10 +431,10 @@ public class Constraints {
         //System.out.println(Arrays.deepToString(pop).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
 
-        Collections.sort(statList,Stats.scoreComparator);
-        System.out.println("MIN VALUE "+ Collections.min(statList,Stats.scoreComparator).getScore());
-        System.out.println("MAX VALUE "+ Collections.max( statList,Stats.scoreComparator).getScore());
-        System.out.println("AVG VALUE "+ statList.stream().mapToDouble(val -> val.getScore()).average().orElse(0.0));
+        Collections.sort(statList, Statistics.scoreComparator);
+//        System.out.println("MIN VALUE "+ Collections.min(statList, Statistics.scoreComparator).getScore());
+//        System.out.println("MAX VALUE "+ Collections.max( statList, Statistics.scoreComparator).getScore());
+//        System.out.println("AVG VALUE "+ statList.stream().mapToDouble(val -> val.getScore()).average().orElse(0.0));
 
         return statList;
 

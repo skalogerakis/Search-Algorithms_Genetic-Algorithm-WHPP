@@ -2,12 +2,12 @@ package utils;
 
 import java.util.Comparator;
 
-public class Stats {
+public class Statistics {
     int[][] population;
     int score;
     int id;
 
-    public Stats(int id, int score, int[][] population){
+    public Statistics(int id, int score, int[][] population){
         this.id = id;
         this.score = score;
         this.population = population;
@@ -37,9 +37,9 @@ public class Stats {
         this.population = population;
     }
 
-    public static Comparator<Stats> scoreComparator = new Comparator<Stats>() {
+    public static Comparator<Statistics> scoreComparator = new Comparator<Statistics>() {
 
-        public int compare(Stats s1, Stats s2) {
+        public int compare(Statistics s1, Statistics s2) {
             int score1 = s1.getScore();
             int score2 = s2.getScore();
 
