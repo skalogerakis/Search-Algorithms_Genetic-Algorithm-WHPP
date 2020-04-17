@@ -3,17 +3,19 @@
   <component name="ChangeListManager">
     <list default="true" id="75e7e9b0-8317-46f1-9e21-bcb110dd1d78" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SearchMethods/AlgoPackage/BFS.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SearchMethods/AlgoPackage/BFS.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SearchMethods/AlgoPackage/LRTA_StarGrid$Nodes.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SearchMethods/AlgoPackage/LRTA_StarGrid.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SearchMethods/MainPackage/Cell.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SearchMethods/MainPackage/Cell.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SearchMethods/MainPackage/GridGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SearchMethods/MainPackage/GridGenerator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AlgoPackage/A_StarGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AlgoPackage/A_Star.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AlgoPackage/BFS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AlgoPackage/BFS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AlgoPackage/DFSGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AlgoPackage/DFS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AlgoPackage/LRTA_StarGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AlgoPackage/LRTA_Star.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MainPackage/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainPackage/Cell.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MainPackage/GridGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainPackage/GridGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SearchMethods/AlgoPackage/LRTA_Star$Nodes.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SearchMethods/AlgoPackage/LRTA_Star$Nodes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SearchMethods/AlgoPackage/LRTA_Star.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SearchMethods/AlgoPackage/LRTA_Star.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SearchMethods/AlgoPackage/_A_Star$Node.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SearchMethods/AlgoPackage/_A_Star.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SearchMethods/AlgoPackage/_BFS$Node.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SearchMethods/AlgoPackage/_BFS.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SearchMethods/AlgoPackage/_DFS.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SearchMethods/AlgoPackage/__DFS.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AlgoPackage/LRTA_Star.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AlgoPackage/LRTA_Star.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AlgoPackage/_A_Star.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AlgoPackage/_BFS.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AlgoPackage/_DFS.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AlgoPackage/__DFS.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,59 +133,59 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2658" y="284" width="424" height="514" key="FileChooserDialogImpl/0.27.1920.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1586454652693" />
-    <state width="1874" height="321" key="GridCell.Tab.0.bottom" timestamp="1587076199614">
+    <state width="1874" height="321" key="GridCell.Tab.0.bottom" timestamp="1587115481083">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1874" height="321" key="GridCell.Tab.0.bottom/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1587076199614" />
+    <state width="1874" height="321" key="GridCell.Tab.0.bottom/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1587115481083" />
     <state width="1874" height="321" key="GridCell.Tab.0.bottom/0.27.1920.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1587031801247" />
-    <state width="1874" height="321" key="GridCell.Tab.0.center" timestamp="1587076199613">
+    <state width="1874" height="321" key="GridCell.Tab.0.center" timestamp="1587115481083">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1874" height="321" key="GridCell.Tab.0.center/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1587076199613" />
+    <state width="1874" height="321" key="GridCell.Tab.0.center/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1587115481083" />
     <state width="1874" height="321" key="GridCell.Tab.0.center/0.27.1920.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1587031801246" />
-    <state width="1874" height="321" key="GridCell.Tab.0.left" timestamp="1587076199612">
+    <state width="1874" height="321" key="GridCell.Tab.0.left" timestamp="1587115481083">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1874" height="321" key="GridCell.Tab.0.left/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1587076199612" />
+    <state width="1874" height="321" key="GridCell.Tab.0.left/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1587115481083" />
     <state width="1874" height="321" key="GridCell.Tab.0.left/0.27.1920.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1587031801245" />
-    <state width="1874" height="321" key="GridCell.Tab.0.right" timestamp="1587076199613">
+    <state width="1874" height="321" key="GridCell.Tab.0.right" timestamp="1587115481083">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1874" height="321" key="GridCell.Tab.0.right/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1587076199613" />
+    <state width="1874" height="321" key="GridCell.Tab.0.right/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1587115481083" />
     <state width="1874" height="321" key="GridCell.Tab.0.right/0.27.1920.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1587031801247" />
-    <state width="1874" height="321" key="GridCell.Tab.1.bottom" timestamp="1587076199615">
+    <state width="1874" height="321" key="GridCell.Tab.1.bottom" timestamp="1587115481084">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1874" height="321" key="GridCell.Tab.1.bottom/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1587076199615" />
+    <state width="1874" height="321" key="GridCell.Tab.1.bottom/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1587115481084" />
     <state width="1874" height="321" key="GridCell.Tab.1.bottom/0.27.1920.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1587031801907" />
-    <state width="1874" height="321" key="GridCell.Tab.1.center" timestamp="1587076199614">
+    <state width="1874" height="321" key="GridCell.Tab.1.center" timestamp="1587115481084">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1874" height="321" key="GridCell.Tab.1.center/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1587076199614" />
+    <state width="1874" height="321" key="GridCell.Tab.1.center/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1587115481084" />
     <state width="1874" height="321" key="GridCell.Tab.1.center/0.27.1920.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1587031801906" />
-    <state width="1874" height="321" key="GridCell.Tab.1.left" timestamp="1587076199614">
+    <state width="1874" height="321" key="GridCell.Tab.1.left" timestamp="1587115481083">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1874" height="321" key="GridCell.Tab.1.left/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1587076199614" />
+    <state width="1874" height="321" key="GridCell.Tab.1.left/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1587115481083" />
     <state width="1874" height="321" key="GridCell.Tab.1.left/0.27.1920.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1587031801906" />
-    <state width="1874" height="321" key="GridCell.Tab.1.right" timestamp="1587076199614">
+    <state width="1874" height="321" key="GridCell.Tab.1.right" timestamp="1587115481084">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1874" height="321" key="GridCell.Tab.1.right/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1587076199614" />
+    <state width="1874" height="321" key="GridCell.Tab.1.right/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1587115481084" />
     <state width="1874" height="321" key="GridCell.Tab.1.right/0.27.1920.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1587031801906" />
     <state width="960" height="526" key="XDebugger.FullValuePopup" timestamp="1587050317690">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state width="960" height="526" key="XDebugger.FullValuePopup/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1587050317690" />
-    <state x="2103" y="87" width="1652" height="880" key="dock-window-1" timestamp="1587067742426">
+    <state x="2013" y="19" width="1234" height="738" key="dock-window-1" timestamp="1587113217009">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2103" y="87" width="1652" height="880" key="dock-window-1/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1587067742426" />
+    <state x="2013" y="19" width="1234" height="738" key="dock-window-1/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1587113217009" />
     <state x="2768" y="318" width="1072" height="762" key="dock-window-1/0.27.1920.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1586375288872" />
-    <state x="1920" y="231" width="1390" height="601" key="dock-window-2" timestamp="1586280888649">
+    <state x="2175" y="14" width="1234" height="738" key="dock-window-2" timestamp="1587114240260">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="1920" y="231" width="1390" height="601" key="dock-window-2/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1586280888649" />
+    <state x="2175" y="14" width="1234" height="738" key="dock-window-2/0.27.1920.1053/1920.0.1920.1080@0.27.1920.1053" timestamp="1587114240260" />
     <state x="2189" y="142" width="1372" height="797" key="new project wizard" timestamp="1586454676848">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
@@ -211,5 +213,10 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo typeName="AlgoPackage.LRTA_Star" fieldName="stepsMatrix" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>

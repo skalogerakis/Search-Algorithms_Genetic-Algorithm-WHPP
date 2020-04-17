@@ -3,8 +3,7 @@ package AlgoPackage;
 
 import MainPackage.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 //Implementation based on this pseudocode
 //http://turing.cs.pub.ro/blia_2003/Real-time_search_1.htm
@@ -17,17 +16,16 @@ public class LRTA_Star {
     private int startingX;
     private int startingY;
     private int[] stepsMatrix;
+    int minFValue;
+    LinkedList<Nodes> visitedList = new LinkedList<>();
 
     static class Nodes {
 
         private int curX;
         private int curY;
-        private boolean visited;
         private int bestPathCost;
         private Nodes parent;
-        private int f = 0;
-        private int g;
-        private int h;
+        int heuristic;
 
         public Nodes(int curX,int curY){
 
@@ -36,38 +34,16 @@ public class LRTA_Star {
 
         }
 
-        public String toString(){
-            return "Position: (" + this.curX + "," + this.curY + ") - " + "Visited: " + this.isVisited() + "\nCost till now: " + bestPathCost;
-        }
-
-        public boolean isVisited() {
-            return visited;
-        }
-
-        public void setVisited(boolean visited) {
-            this.visited = visited;
-        }
-
         //TODO CHANGE THAT
-        public int calculateHeuristic(Nodes finalNode) {  this.h = Math.abs(finalNode.curX - curX) + Math.abs(finalNode.curY - curY);
-            return this.h;
-        }
-
-        public Nodes getParent() {
-            return parent;
+        public int calculateHeuristic(Nodes finalNode) {
+            this.heuristic = Math.abs(finalNode.curX - curX) + Math.abs(finalNode.curY - curY);
+            return this.heuristic;
         }
 
         public void setParent(Nodes parent) {
             this.parent = parent;
         }
 
-        public int getH() {
-            return h;
-        }
-
-        public void setH(int h) {
-            this.h = h;
-        }
 
     }
 
@@ -105,77 +81,86 @@ public class LRTA_Star {
         nodeInitializer();
 
         int[] returnValue = {0,-1};
-        Nodes currentNode = new Nodes(this.startingX,this.startingY);;
+        Nodes currentNode = new Nodes(this.startingX,this.startingY);
+        this.visitedList.add(currentNode);
+        currentNode.setParent(null);
 
         while(currentNode != null){
 
             if (this.grid.getCell(currentNode.curX,currentNode.curY).isTerminal()){
+                this.visitedList.addLast(currentNode);
                 returnValue[0] = 1;
                 returnValue[1] = currentNode.bestPathCost;
                 return returnValue;
             }
 
 
-            int minFValue = Integer.MAX_VALUE;
-            List<Nodes> neighNodes = validNeighList(currentNode);
+            this.minFValue = Integer.MAX_VALUE;
             Nodes nextNode = null;
-            for (Nodes n : neighNodes) {
-                int fValue = getLRTACost(n);
-                //n.setVisited(true);
-                this.grid.setCellVisited(n.curX,n.curY);
-                if (fValue < minFValue){
-                    minFValue = fValue;
-                    nextNode = n;
+
+            /**
+             * Starting searching all your neighbours for min f value and assign it to
+             * h(heuristic value) of current Node. We also do online search
+             */
+            if(isValid(currentNode.curX,currentNode.curY-1)){
+                this.grid.setCellVisited(currentNode.curX,currentNode.curY-1);
+
+                if(LTRA_F_Finder(currentNode.curX,currentNode.curY-1) < this.minFValue){
+                    this.minFValue = LTRA_F_Finder(currentNode.curX,currentNode.curY-1);
+                    nextNode = this.heuristicArea[currentNode.curX][currentNode.curY - 1];
+                }
+
+            }
+
+
+            if(isValid(currentNode.curX-1,currentNode.curY)){
+                this.grid.setCellVisited(currentNode.curX - 1,currentNode.curY);
+
+                if(LTRA_F_Finder(currentNode.curX - 1,currentNode.curY) < this.minFValue){
+                    this.minFValue = LTRA_F_Finder(currentNode.curX - 1,currentNode.curY);
+                    nextNode = this.heuristicArea[currentNode.curX - 1][currentNode.curY];
                 }
             }
-            this.heuristicArea[currentNode.curX][currentNode.curY].setH(minFValue);
 
+
+            if(isValid(currentNode.curX, currentNode.curY + 1)){
+
+                this.grid.setCellVisited(currentNode.curX,currentNode.curY+1);
+                if(LTRA_F_Finder(currentNode.curX,currentNode.curY+1) < this.minFValue){
+                    this.minFValue = LTRA_F_Finder(currentNode.curX,currentNode.curY+1);
+                    nextNode = this.heuristicArea[currentNode.curX][currentNode.curY + 1];
+                }
+            }
+
+            if(isValid(currentNode.curX+1,currentNode.curY)){
+
+                this.grid.setCellVisited(currentNode.curX + 1,currentNode.curY);
+                if(LTRA_F_Finder(currentNode.curX + 1,currentNode.curY) < this.minFValue){
+                    this.minFValue = LTRA_F_Finder(currentNode.curX + 1,currentNode.curY);
+                    nextNode = this.heuristicArea[currentNode.curX+1][currentNode.curY];
+                }
+            }
+
+
+            //assign min f value to current Node heuristic function
+            this.heuristicArea[currentNode.curX][currentNode.curY].heuristic = minFValue;
             //TODO CHECK THAT
             int cost = this.grid.getCell(nextNode.curX,nextNode.curY).isGrass() ? 2 : 1;
 
             nextNode.bestPathCost = currentNode.bestPathCost + cost;
-
+            nextNode.setParent(currentNode);
+            this.visitedList.add(nextNode);
             currentNode = nextNode;
 
         }
         return returnValue;
     }
 
-    private List<Nodes> validNeighList(Nodes node) {
 
-        List<Nodes> neighbours = new ArrayList<>();
+    private int LTRA_F_Finder(int nextX, int nextY){
+        int currentVal = this.grid.getCell(nextX,nextY).isGrass() ? 2 : 1;
 
-        if(isValid(node.curX,node.curY-1)){
-            neighbours.add(this.heuristicArea[node.curX][node.curY - 1]);
-        }
-
-
-        if(isValid(node.curX-1,node.curY)){
-            neighbours.add(this.heuristicArea[node.curX - 1][node.curY]);
-        }
-
-        if(isValid(node.curX, node.curY + 1)){
-            neighbours.add(this.heuristicArea[node.curX][node.curY + 1]);
-        }
-
-        if(isValid(node.curX+1,node.curY)){
-            neighbours.add(this.heuristicArea[node.curX + 1][node.curY]);
-        }
-        return neighbours;
-
-    }
-
-    private int getLRTACost(Nodes candNext){
-        int fValue;
-        int kValue;
-
-
-        int hValue = this.heuristicArea[candNext.curX][candNext.curY].getH();
-
-        kValue = this.grid.getCell(candNext.curX,candNext.curY).isGrass() ? 2 : 1;
-        fValue = hValue + kValue;
-
-        return fValue;
+        return this.heuristicArea[nextX][nextY].heuristic + currentVal;
     }
 
 
@@ -191,6 +176,25 @@ public class LRTA_Star {
 
         return true;
 
+    }
+
+    /**
+     * Function created for visualization purposes in the Drawing. It demanded a 1d array with all the steps required
+     * to reach the final goal(Only the best path)
+     * @return
+     */
+    public int[] getStepsMatrix() {
+
+        Nodes nodeback = visitedList.pollLast();
+        int counter = 0;
+
+        while (!visitedList.isEmpty()) {
+            stepsMatrix[counter] = nodeback.curX * this.grid.getNumOfColumns() + nodeback.curY;
+            counter++;
+            nodeback = visitedList.pollLast();
+        }
+
+        return stepsMatrix;
     }
 
     /**
