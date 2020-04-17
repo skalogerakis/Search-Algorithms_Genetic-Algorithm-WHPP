@@ -28,12 +28,16 @@ public class MainClass {
 
         //From constraint class first check feasibility(hard constraints) and then fitness(soft constraints)
         ArrayList<int[][]> population = initConstr.feasibility();
-        int[] score = initConstr.fitness();
+        int[] score = new int[population.size()];
+        ArrayList<Stats> stats = initConstr.fitness();
 
+        int[] finalScore = score;
+        stats.forEach(stat -> {
+            finalScore[stat.getId()] = stat.getScore();});
 
         System.out.println("SIZEEE "+population.size());
 
-
+        score = finalScore;
 
         //CHECHED FITNESS FEASIBILITY FOUND BEST AND AVG NOW PROCEED NEW GENERATION
 
@@ -41,7 +45,9 @@ public class MainClass {
         for(int s = 0; s < ITERATIONS ; s++){
             ArrayList<int[][]> newpopulation = new ArrayList<>();
             System.out.println(s);
-            for(int i = 0; i < population.size()/2; i++){
+            for(int i = 0; i < population.size(); i++){
+
+                Stats curStat = stats.get(i);
 
                 //APPLY EVERYTHING NO PROBABILITIES YET
 
@@ -84,7 +90,21 @@ public class MainClass {
             if(newpopulation.size() <= 1) break;
 
             ArrayList<int[][]> mpopulation = newConstr.feasibility();
-            score = newConstr.fitness();
+
+            ArrayList<Stats> tempScore = newConstr.fitness();
+
+            int[] nscore = new int[population.size()];
+            int[] nfinalScore = nscore;
+            tempScore.forEach(stat -> {
+                nfinalScore[stat.getId()] = stat.getScore();});
+
+            System.out.println("SIZEEE "+population.size());
+
+            score = nfinalScore;
+
+
+//            ArrayList<int[][]> mpopulation = newConstr.feasibility();
+//            score = newConstr.fitness();
             //System.out.println("SIZEEE "+mpopulation.size());
 
             System.out.println("\n\n");
