@@ -29,6 +29,14 @@ public class Stats {
         this.id = Id;
     }
 
+    public int[][] getPopulation() {
+        return population;
+    }
+
+    public void setPopulation(int[][] population) {
+        this.population = population;
+    }
+
     public static Comparator<Stats> scoreComparator = new Comparator<Stats>() {
 
         public int compare(Stats s1, Stats s2) {

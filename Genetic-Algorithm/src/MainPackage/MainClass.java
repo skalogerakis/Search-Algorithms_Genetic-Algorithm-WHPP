@@ -28,41 +28,44 @@ public class MainClass {
 
         //From constraint class first check feasibility(hard constraints) and then fitness(soft constraints)
         ArrayList<int[][]> population = initConstr.feasibility();
-        int[] score = new int[population.size()];
-        ArrayList<Stats> stats = initConstr.fitness();
 
-        int[] finalScore = score;
-        stats.forEach(stat -> {
-            finalScore[stat.getId()] = stat.getScore();});
+        ArrayList<Stats> stats = initConstr.fitness();
 
         System.out.println("SIZEEE "+population.size());
 
-        score = finalScore;
 
         //CHECHED FITNESS FEASIBILITY FOUND BEST AND AVG NOW PROCEED NEW GENERATION
 
 
         for(int s = 0; s < ITERATIONS ; s++){
             ArrayList<int[][]> newpopulation = new ArrayList<>();
+            ArrayList<int[][]> halfpopulation = new ArrayList<>();
             System.out.println(s);
             for(int i = 0; i < population.size(); i++){
 
-                Stats curStat = stats.get(i);
-
                 //APPLY EVERYTHING NO PROBABILITIES YET
+                if(i < population.size()/2){
+                    Stats ms = stats.get(i);
+                    newpopulation.add(ms.getPopulation());
+                    continue;
+                }else {
+                    Stats ms = stats.get(i);
+                    halfpopulation.add(ms.getPopulation());
+                }
 
                 Selection newSelection = new Selection();
 
                 int parent1;
                 int parent2;
                 do{
-                    parent1 = newSelection.rouletteWheelSelectionF(population,score);
+                    parent1 = newSelection.rouletteWheelSelectionF(halfpopulation,stats);
                     //System.out.println("Parent1 "+parent1);
-                    parent2 = newSelection.rouletteWheelSelectionF(population,score);
-                    //System.out.println("Parent2 "+parent2);
+                    parent2 = newSelection.rouletteWheelSelectionF(halfpopulation,stats);
+                   // System.out.println("Parent2 "+parent2);
                 }while (parent1 == parent2);
 
                 //Crossover implementation
+                //Crossover crossover = new Crossover(population.get(parent1),population.get(parent2),x_Axis_Days,y_Axis_Employees);
                 Crossover crossover = new Crossover(population.get(parent1),population.get(parent2),x_Axis_Days,y_Axis_Employees);
 
                 int[][] child = crossover.singlePointCross();
@@ -81,7 +84,6 @@ public class MainClass {
                 //child = mutation.twoPointSwapping();
 
                 newpopulation.add(child);
-                //newpopulation.add(i, child);
 
             }
 
@@ -93,22 +95,11 @@ public class MainClass {
 
             ArrayList<Stats> tempScore = newConstr.fitness();
 
-            int[] nscore = new int[population.size()];
-            int[] nfinalScore = nscore;
-            tempScore.forEach(stat -> {
-                nfinalScore[stat.getId()] = stat.getScore();});
-
             System.out.println("SIZEEE "+population.size());
 
-            score = nfinalScore;
-
-
-//            ArrayList<int[][]> mpopulation = newConstr.feasibility();
-//            score = newConstr.fitness();
-            //System.out.println("SIZEEE "+mpopulation.size());
 
             System.out.println("\n\n");
-            //population = mpopulation.size();
+            stats = tempScore;
             population = mpopulation;
         }
 

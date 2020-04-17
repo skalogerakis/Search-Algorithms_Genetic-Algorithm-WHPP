@@ -32,9 +32,6 @@ public class Constraints {
         int totalTwoCounter=0;
         int totalThreeCounter=0;
         int itercounter=0;
-        //boolean flag =false;
-//        for(int[][] pop : population){
-        //System.out.println("Init size "+this.population.size());
 
         for (int k = 0; k < this.population.size();k++){
             int[][] pop = this.population.get(k);
@@ -278,18 +275,14 @@ public class Constraints {
 //    }
 
     public ArrayList<Stats> fitness(){
-//        HashMap<Integer, Map.Entry<Integer,int[][]>> myscore = new HashMap<Integer, Map.Entry<Integer,int[][]>>();
 
-        int[] score = new int[this.population.size()];
-        ArrayList<Integer> scoreList = new ArrayList<>();
         ArrayList<Stats> statList = new ArrayList<Stats>();
 
         for(int i=0; i < this.population.size(); i++){
 
             int[][] pop = this.population.get(i);
             Stats mystats = new Stats(i, 0, pop);
-            score[i] = 0;
-            scoreList.add(i,0);
+
 //            if(i ==0){
 //                System.out.println(Arrays.deepToString(pop).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 //
@@ -329,15 +322,11 @@ public class Constraints {
                         consecutiveNights=0;
                         //In case shift night and next morning
                         if(prevNight_nextMor){
-                            score[i] += 1000;
-                            scoreList.set(i, scoreList.get(i)+1000);
                             mystats.score += 1000;
                             prevNight_nextMor = false;
                         }
                         //In case shift noon and next morning
                         if(prevNoon_nextMor){
-                            score[i] += 800;
-                            scoreList.set(i, scoreList.get(i)+800);
                             mystats.score += 800;
                             prevNoon_nextMor = false;
                         }
@@ -346,8 +335,6 @@ public class Constraints {
                         daysworkcounter++;
                         offWorkoff++;
                         if(WorkoffWork == 1){
-                            score[i] += 1;
-                            scoreList.set(i, scoreList.get(i)+1);
                             mystats.score += 1;
                         }
                         WorkoffWork=0;
@@ -358,16 +345,12 @@ public class Constraints {
                         prevNight_nextMor = false;
                         prevNoon_nextMor = true;
                         if(prevNight_nextNoon){
-                            score[i] += 800;
-                            scoreList.set(i, scoreList.get(i)+800);
                             mystats.score += 800;
                             prevNight_nextNoon = false;
                         }
                         daysworkcounter++;
                         offWorkoff++;
                         if(WorkoffWork == 1){
-                            score[i] += 1;
-                            scoreList.set(i, scoreList.get(i)+1);
                             mystats.score += 1;
                         }
                         WorkoffWork=0;
@@ -382,8 +365,6 @@ public class Constraints {
                         daysworkcounter++;
                         offWorkoff++;
                         if(WorkoffWork == 1){
-                            score[i] += 1;
-                            scoreList.set(i, scoreList.get(i)+1);
                             mystats.score += 1;
                         }
                         WorkoffWork=0;
@@ -396,8 +377,6 @@ public class Constraints {
                         daysoff++;
                         //case employee works day off then works and then again day off
                         if(offWorkoff == 1){
-                            score[i] += 1;
-                            scoreList.set(i, scoreList.get(i)+1);
                             mystats.score += 1;
                         }
                         offWorkoff = 0;
@@ -411,57 +390,44 @@ public class Constraints {
                 }
                 //case employee works over 70 hours
                 if(hoursWork > 70){
-                    score[i] += 1000;
-                    scoreList.set(i, scoreList.get(i)+1000);
                     mystats.score += 1000;
                 }
 
                 //case employee works over 7 consecutive days
                 if(consecutiveDays > 7){
-                    score[i] += 1000;
-                    scoreList.set(i, scoreList.get(i)+1000);
                     mystats.score += 1000;
                 }
 
                 //case employee works over 4 consecutive night shifts
                 if(consecutiveNights > 4){
-                    score[i] += 1000;
-                    scoreList.set(i, scoreList.get(i)+1000);
                     mystats.score += 1000;
                 }
 
                 //case employee works over 4 night shifts must be assigned with at least two days off
                 if(nightShifts >=4 && daysoff<2){
-                    score[i] += 100;
-                    scoreList.set(i, scoreList.get(i)+100);
                     mystats.score += 100;
                 }
 
                 //case employee works over 7 days must be assigned with at least two days off
                 if(daysworkcounter >=7 && daysoff<2){
-                    score[i] += 100;
-                    scoreList.set(i, scoreList.get(i)+100);
                     mystats.score += 100;
                 }
 
                 //case employee works both weekends(4 days)
                 if(consecutiveWeekends == 4){
-                    score[i] += 1;
-                    scoreList.set(i, scoreList.get(i)+1);
                     mystats.score += 1;
                 }
 
 
             }
-//            System.out.println(i+" SCORE "+","+score[i]);
-//            continue;
+
             statList.add(mystats);
         }
 
         //System.out.println(Arrays.deepToString(pop).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
 
-//        Collections.sort(statList,Stats.scoreComparator);
+        Collections.sort(statList,Stats.scoreComparator);
         System.out.println("MIN VALUE "+ Collections.min(statList,Stats.scoreComparator).getScore());
         System.out.println("MAX VALUE "+ Collections.max( statList,Stats.scoreComparator).getScore());
         System.out.println("AVG VALUE "+ statList.stream().mapToDouble(val -> val.getScore()).average().orElse(0.0));

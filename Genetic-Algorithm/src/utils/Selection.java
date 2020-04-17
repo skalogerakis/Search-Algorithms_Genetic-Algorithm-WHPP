@@ -2,6 +2,7 @@ package utils;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.stream.DoubleStream;
 
 
 public class Selection {
@@ -73,6 +74,38 @@ public class Selection {
             }
         }
 
+        //Something went wrong to reach this point
+        System.out.println("ERROR HERE CHECK");
+        return -1;
+    }
+
+    public int rouletteWheelSelectionF(ArrayList<int[][]> population, ArrayList<Stats> score){
+        double totalSum = 0.0d;
+
+        totalSum += score.stream().mapToDouble(stat -> (double) 1 / stat.getScore()).sum();
+
+
+        double MAX = totalSum;
+
+        Random r = new Random();
+        double rand = MIN + (MAX - MIN) * r.nextDouble();
+        //System.out.println("SUM "+totalSum+" rand "+rand);
+
+
+
+        //double rand = (Math.random() * ((MAX - MIN) + 1)) + MIN;
+        //System.out.println("SUM "+totalSum+" rand "+rand);
+
+        double partialSum = 0.0d;
+
+        for(Stats stat : score){
+            partialSum += (double) 1/stat.getScore();
+            if(Double.compare(partialSum,rand) >= 0){
+                //System.out.println("ID "+stat.id+" index "+score.indexOf(stat));
+
+                return score.indexOf(stat);
+            }
+        }
         //Something went wrong to reach this point
         System.out.println("ERROR HERE CHECK");
         return -1;
