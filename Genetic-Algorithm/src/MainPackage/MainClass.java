@@ -6,8 +6,9 @@ import org.knowm.xchart.XYChart;
 import org.knowm.xchart.demo.charts.ExampleChart;
 import utils.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class MainClass {
 
@@ -17,6 +18,9 @@ public class MainClass {
     final static int x_Axis_Days = 14;
     final static int y_Axis_Employees = 30;
     final static int ITERATIONS = 15;
+    final static double p_sel = 0.05; // selection probability
+    final static double p_cross = 0.15; //crossover probability
+    final static double p_mut = 0.15; //mutation probability
 
     static int population = 5000;
 
@@ -36,6 +40,12 @@ public class MainClass {
         //From constraint class first check feasibility(hard constraints) and then fitness(soft constraints)
         ArrayList<Statistics> populationData = constraints.constraintChecker();
 
+        //int middle = populationData.size()/2;
+//        List<Statistics> elitehalf = populationData.subList(0,(int)((populationData.size()/2)*0.1)+1);
+//        List<Statistics> secondhalf = populationData.subList((int)((populationData.size()/2)*0.1)+1,populationData.size());
+
+
+
         bestChrom.add((double)Collections.min(populationData, Statistics.scoreComparator).getScore());
         avgChrom.add(populationData.stream().mapToDouble(val -> val.getScore()).average().orElse(0.0));
         System.out.println("SIZEEE "+populationData.size());
@@ -46,53 +56,70 @@ public class MainClass {
 
         for(int s = 0; s < ITERATIONS ; s++){
             ArrayList<int[][]> nextgenpop = new ArrayList<>();
-            ArrayList<int[][]> halfpopulation = new ArrayList<>();
+            //ArrayList<int[][]> halfpopulation = new ArrayList<>();
+//            ArrayList<Statistics> halfpopulationData = new ArrayList<>();
             System.out.println(s);
+
             for(int i = 0; i < populationData.size(); i++){
 
-                //APPLY EVERYTHING NO PROBABILITIES YET
-                Statistics dataStats = populationData.get(i);
+                double p_sel_roll = new Random().nextDouble();//0.05;
+                double p_cross_roll = new Random().nextDouble(); //0.15;
+                double p_mut_roll = new Random().nextDouble();//0.15;
+                
+                int parent1= -1;
+                int parent2= -1;
 
-                if(i < populationData.size()/2){
+                if(i < (populationData.size()/2)*0.1){
+                    //Statistics dataStats = elitehalf.get(i);
+                    Statistics dataStats = populationData.get(i);
                     nextgenpop.add(dataStats.getPopulation());
                     continue;
-                }else {
-                    halfpopulation.add(dataStats.getPopulation());
+//                }else {
+                    //halfpopulation.add(dataStats.getPopulation());
+                    //halfpopulationData.add(dataStats);
+
                 }
 
+                //In case the selection does not proceed, simply add a new random VALID population
+                if(p_sel_roll < p_sel){
+                    nextgenpop.add(new Population().randomValidPopulation(x_Axis_Days,y_Axis_Employees));
+                    continue;
+                }
                 Selection newSelection = new Selection();
 
-                int parent1;
-                int parent2;
+
                 do{
-                    parent1 = newSelection.rouletteWheelSelectionF(halfpopulation,populationData);
-                    //System.out.println("Parent1 "+parent1);
-                    parent2 = newSelection.rouletteWheelSelectionF(halfpopulation,populationData);
-                   // System.out.println("Parent2 "+parent2);
+                    parent1 = newSelection.rouletteWheelSelectionF(populationData);
+                    parent2 = newSelection.rouletteWheelSelectionF(populationData);
+
                 }while (parent1 == parent2);
 
-                //Crossover implementation
-                //Crossover crossover = new Crossover(population.get(parent1),population.get(parent2),x_Axis_Days,y_Axis_Employees);
-                Statistics par1 = populationData.get(parent1);
-                Statistics par2 = populationData.get(parent2);
+//                    Statistics par1 = secondhalf.get(parent1);
+//                    Statistics par2 = secondhalf.get(parent2);
+                int[][] child = populationData.get(parent1).getPopulation();
 
-                Crossover crossover = new Crossover(par1.getPopulation(),par2.getPopulation(),x_Axis_Days,y_Axis_Employees);
+                //TODO maybe add a check here about parent values
+                /**
+                 * Checked what is better when crossover does not happen(whether to generate new random or simply use a parent)
+                 * And it was much better to simply pass the parent in the next generation
+                 */
 
-                int[][] child = crossover.singlePointCross();
 
-//            System.out.println("AFTER "+modpopulation.size());
-                //
-                //        int[][] crossChild = crossover.multiplePointCrossover();
-                //
-                //
-                //        System.out.println("\n\nChosen child");
-                //        System.out.println(Arrays.deepToString(crossChild).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
-                //
-                Mutation mutation = new Mutation(child, x_Axis_Days, y_Axis_Employees);
-//                child = mutation.stringSwapping();
-                child = mutation.InverseDays();
-                //child = mutation.twoPointSwapping();
+                if(p_cross_roll > p_cross){
+                    Statistics par1 = populationData.get(parent1);
+                    Statistics par2 = populationData.get(parent2);
+                    Crossover crossover = new Crossover(par1.getPopulation(),par2.getPopulation(),x_Axis_Days,y_Axis_Employees);
 
+                    child = crossover.singlePointCross();
+
+                    if(p_mut_roll > p_mut){
+                        Mutation mutation = new Mutation(child, x_Axis_Days, y_Axis_Employees);
+                    //  child = mutation.stringSwapping();
+                        child = mutation.InverseDays();
+                    }
+//                }else{
+//                    child = new Population().randomValidPopulation(x_Axis_Days,y_Axis_Employees);
+                }
                 nextgenpop.add(child);
 
             }
@@ -103,6 +130,8 @@ public class MainClass {
 
 
             populationData = newConstr.constraintChecker();
+//            elitehalf = populationData.subList(0,(int)((populationData.size()/2)*0.1)+1);
+//            secondhalf = populationData.subList((int)((populationData.size()/2)*0.1)+1,populationData.size());
             bestChrom.add((double)Collections.min(populationData, Statistics.scoreComparator).getScore());
             avgChrom.add(populationData.stream().mapToDouble(val -> val.getScore()).average().orElse(0.0));
             System.out.println("SIZEEE "+populationData.size());

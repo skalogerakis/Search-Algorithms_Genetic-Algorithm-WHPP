@@ -40,7 +40,7 @@ public class Population {
             for(int j=0; j<x_axis; j++){
                 Random rand = new Random();
                 //In 1 in 25 cases(4%) in x_axis(DAYS) change hard constraint assignment(make it invalid)
-                if( new Random().nextDouble() <= 0.04 ) {
+                if( new Random().nextDouble() <= 0.055 ) {
                     tempMatrix[j][0] = 0;
                 }
                 for(int k=0; k<y_axis; k++){
@@ -63,6 +63,42 @@ public class Population {
 
         System.out.println("Population generated successfully.");
         return popMatrix;
+
+    }
+
+    public int[][] randomValidPopulation(int x_axis, int y_axis){
+        //int[][][] popMatrix = new int[size][x_axis][y_axis];
+//        ArrayList<int[][]> popMatrix = new ArrayList<int[][]>();
+
+//        for(int i=0; i<size; i++){
+            int[][] tempMatrix = initMatrix(x_axis,y_axis);
+
+            for(int j=0; j<x_axis; j++){
+                Random rand = new Random();
+                //In 1 in 25 cases(4%) in x_axis(DAYS) change hard constraint assignment(make it invalid)
+//                if( new Random().nextDouble() <= 0.055 ) {
+//                    tempMatrix[j][0] = 0;
+//                }
+                for(int k=0; k<y_axis; k++){
+                    //In 1 in 500 case change the hard constraint assignment(make it invalid)
+//                    if( new Random().nextDouble() <= 0.002 ) {
+//                        tempMatrix[j][k] = 0;
+//                    }
+                    int randomIndexToSwap = rand.nextInt(y_axis);
+                    int temp = tempMatrix[j][randomIndexToSwap];
+                    tempMatrix[j][randomIndexToSwap] = tempMatrix[j][k];
+                    tempMatrix[j][k] = temp;
+
+                }
+            }
+
+//            popMatrix.add(tempMatrix);
+
+
+//        }
+//
+//        System.out.println("Population generated successfully.");
+        return tempMatrix;
 
     }
 

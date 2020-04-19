@@ -1,6 +1,7 @@
 package utils;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -78,7 +79,7 @@ public class Selection {
         return -1;
     }
 
-    public int rouletteWheelSelectionF(ArrayList<int[][]> population, ArrayList<Statistics> score){
+    public int rouletteWheelSelectionF(ArrayList<Statistics> score){
         double totalSum = 0.0d;
 
         totalSum += score.stream().mapToDouble(stat -> (double) 1 / stat.getScore()).sum();
