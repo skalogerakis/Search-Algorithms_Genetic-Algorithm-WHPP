@@ -12,8 +12,7 @@ import java.util.stream.Collectors;
 
 public class MainClass {
 
-    //TODO when done with everything else and need plotting
-    // https://github.com/knowm/XChart(Jar already included)
+
 
     final static int x_Axis_Days = 14;
     final static int y_Axis_Employees = 30;
@@ -27,6 +26,7 @@ public class MainClass {
 
     public static void main(String args[]) {
 
+        //Lists used to store best and average values of each generation
         ArrayList<Double> bestChrom = new ArrayList<Double>();
         ArrayList<Double> avgChrom = new ArrayList<Double>();
 
@@ -40,7 +40,7 @@ public class MainClass {
         //From constraint class first check feasibility(hard constraints) and then fitness(soft constraints)
         ArrayList<Statistics> populationData = constraints.constraintChecker();
 
-        //int middle = populationData.size()/2;
+        //An attempted implementation with not the best results
 //        List<Statistics> elitehalf = populationData.subList(0,(int)((populationData.size()/2)*0.1)+1);
 //        List<Statistics> secondhalf = populationData.subList((int)((populationData.size()/2)*0.1)+1,populationData.size());
 
@@ -48,17 +48,15 @@ public class MainClass {
 
         bestChrom.add((double)Collections.min(populationData, Statistics.scoreComparator).getScore());
         avgChrom.add(populationData.stream().mapToDouble(val -> val.getScore()).average().orElse(0.0));
-        System.out.println("SIZEEE "+populationData.size());
-
-
-        //CHECHED FITNESS FEASIBILITY FOUND BEST AND AVG NOW PROCEED NEW GENERATION
+//        System.out.println("Population size "+populationData.size());
+//        System.out.println("\n\n");
 
 
         for(int s = 0; s < ITERATIONS ; s++){
             ArrayList<int[][]> nextgenpop = new ArrayList<>();
             //ArrayList<int[][]> halfpopulation = new ArrayList<>();
 //            ArrayList<Statistics> halfpopulationData = new ArrayList<>();
-            System.out.println(s);
+            //System.out.println(s);
 
             for(int i = 0; i < populationData.size(); i++){
 
@@ -114,17 +112,16 @@ public class MainClass {
 
                     if(p_mut_roll > p_mut){
                         Mutation mutation = new Mutation(child, x_Axis_Days, y_Axis_Employees);
-                    //  child = mutation.stringSwapping();
-                        child = mutation.InverseDays();
+                        child = mutation.twoPointSwappingSameRow();
+//                        child = mutation.InverseDays();
                     }
-//                }else{
-//                    child = new Population().randomValidPopulation(x_Axis_Days,y_Axis_Employees);
+
                 }
                 nextgenpop.add(child);
 
             }
 
-            System.out.println("NEW POP "+nextgenpop.size());
+            //System.out.println("Population size "+nextgenpop.size());
             Constraints newConstr = new Constraints(x_Axis_Days,y_Axis_Employees, nextgenpop);
             if(nextgenpop.size() <= 1) break;
 
@@ -132,13 +129,14 @@ public class MainClass {
             populationData = newConstr.constraintChecker();
 //            elitehalf = populationData.subList(0,(int)((populationData.size()/2)*0.1)+1);
 //            secondhalf = populationData.subList((int)((populationData.size()/2)*0.1)+1,populationData.size());
+            //Add the best and the average score of each generation in our array
             bestChrom.add((double)Collections.min(populationData, Statistics.scoreComparator).getScore());
             avgChrom.add(populationData.stream().mapToDouble(val -> val.getScore()).average().orElse(0.0));
-            System.out.println("SIZEEE "+populationData.size());
 
-            System.out.println("Iteration completed "+s);
+
+            System.out.println("-----------Generation completed "+(s+1)+" -------------");
+            System.out.println("Population size "+populationData.size());
             System.out.println("\n\n");
-            //populationData = tempScore;
         }
 
         System.out.println("Best and average score per generation");
@@ -146,12 +144,13 @@ public class MainClass {
             System.out.println("Generation :"+ g + ", Best score: "+bestChrom.get(g)+", Average score: "+avgChrom.get(g));
         }
 
+        // Plotting usign XChart https://github.com/knowm/XChart(Jar already included)
         //Show my chart
-        ExampleChart<XYChart> myChart = new Chart(bestChrom);
+        ExampleChart<XYChart> myChart = new Chart(bestChrom, "Best");
         XYChart chart = myChart.getChart();
         new SwingWrapper<XYChart>(chart).displayChart();
 
-        ExampleChart<XYChart> myChart2 = new Chart(avgChrom);
+        ExampleChart<XYChart> myChart2 = new Chart(avgChrom, "Average");
         XYChart chart2 = myChart2.getChart();
         new SwingWrapper<XYChart>(chart2).displayChart();
 

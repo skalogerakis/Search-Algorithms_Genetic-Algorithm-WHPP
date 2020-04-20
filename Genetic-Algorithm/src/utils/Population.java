@@ -22,9 +22,10 @@ public class Population {
 
     /**
      * Pseudorandom number generator that produces the numbers in sequence that are
-     * uniform distributed which looks random. From documentation: "Math.random() uses Random.nextDouble()
-     * internally and Random.nextDouble() uses Random.next() twice to generate a double number that has approximately
-     * uniformly distributed bits in its mantissa, so it is uniformly distributed in the range 0 to 1-(2^-52"
+     * uniform distributed which looks random. This specific function, generates a population
+     * of a given size(passed as parameter). It uses the initMatrix function as described below to
+     * produce valid chromosome, and then this function shuffles each chromosome randomly and also
+     * randomly makes invalid some of the population
      * @param size
      * @param x_axis
      * @param y_axis
@@ -39,15 +40,11 @@ public class Population {
 
             for(int j=0; j<x_axis; j++){
                 Random rand = new Random();
-                //In 1 in 25 cases(4%) in x_axis(DAYS) change hard constraint assignment(make it invalid)
+                //Approximately in 1 in 20 cases(5.5%) in x_axis(DAYS) change hard constraint assignment(make it invalid)
                 if( new Random().nextDouble() <= 0.055 ) {
                     tempMatrix[j][0] = 0;
                 }
                 for(int k=0; k<y_axis; k++){
-                    //In 1 in 500 case change the hard constraint assignment(make it invalid)
-//                    if( new Random().nextDouble() <= 0.002 ) {
-//                        tempMatrix[j][k] = 0;
-//                    }
                     int randomIndexToSwap = rand.nextInt(y_axis);
                     int temp = tempMatrix[j][randomIndexToSwap];
                     tempMatrix[j][randomIndexToSwap] = tempMatrix[j][k];
@@ -66,42 +63,40 @@ public class Population {
 
     }
 
+    /**
+     * This is used to generate one random chromosome in case someone goes invalid.
+     * @param x_axis
+     * @param y_axis
+     * @return
+     */
     public int[][] randomValidPopulation(int x_axis, int y_axis){
-        //int[][][] popMatrix = new int[size][x_axis][y_axis];
-//        ArrayList<int[][]> popMatrix = new ArrayList<int[][]>();
 
-//        for(int i=0; i<size; i++){
-            int[][] tempMatrix = initMatrix(x_axis,y_axis);
+        int[][] tempMatrix = initMatrix(x_axis,y_axis);
 
-            for(int j=0; j<x_axis; j++){
-                Random rand = new Random();
-                //In 1 in 25 cases(4%) in x_axis(DAYS) change hard constraint assignment(make it invalid)
-//                if( new Random().nextDouble() <= 0.055 ) {
-//                    tempMatrix[j][0] = 0;
-//                }
-                for(int k=0; k<y_axis; k++){
-                    //In 1 in 500 case change the hard constraint assignment(make it invalid)
-//                    if( new Random().nextDouble() <= 0.002 ) {
-//                        tempMatrix[j][k] = 0;
-//                    }
-                    int randomIndexToSwap = rand.nextInt(y_axis);
-                    int temp = tempMatrix[j][randomIndexToSwap];
-                    tempMatrix[j][randomIndexToSwap] = tempMatrix[j][k];
-                    tempMatrix[j][k] = temp;
+        for(int j=0; j<x_axis; j++){
+            Random rand = new Random();
 
-                }
+            for(int k=0; k<y_axis; k++){
+                int randomIndexToSwap = rand.nextInt(y_axis);
+                int temp = tempMatrix[j][randomIndexToSwap];
+                tempMatrix[j][randomIndexToSwap] = tempMatrix[j][k];
+                tempMatrix[j][k] = temp;
+
             }
+        }
 
-//            popMatrix.add(tempMatrix);
-
-
-//        }
-//
-//        System.out.println("Population generated successfully.");
         return tempMatrix;
 
     }
 
+    /**
+     * Matrix initialization based on hard constraint array. I simply reversed engineered the problem
+     * by initially producing a init matrix that will definitely pass the hard constraints and then
+     * make it random(see functions above)
+     * @param x_axis
+     * @param y_axis
+     * @return
+     */
     private int[][] initMatrix(int x_axis, int y_axis){
 
         int[][] tempMatrix = new int[x_axis][y_axis];

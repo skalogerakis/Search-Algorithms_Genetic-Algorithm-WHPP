@@ -2,6 +2,10 @@ package utils;
 
 import java.util.Comparator;
 
+/**
+ * Statistics class is used to hold all the demanded information about a chromosome.
+ * We have the population field(each chromosome), id and score(a result of soft constraints check)
+ */
 public class Statistics {
     int[][] population;
     int score;
@@ -37,6 +41,7 @@ public class Statistics {
         this.population = population;
     }
 
+    //In order to sort our object we must create a custom comparator as seen below
     public static Comparator<Statistics> scoreComparator = new Comparator<Statistics>() {
 
         public int compare(Statistics s1, Statistics s2) {

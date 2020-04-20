@@ -5,7 +5,7 @@ import java.util.*;
 public class Crossover {
 
     static int MIN = 0;
-    static int MULTIBREAK = 4;
+    static int MULTIBREAK = 4; //The number of point break in multiple point crossover case
     int[][] parentNode1;
     int[][] parentNode2;
     int x_axis;
@@ -21,22 +21,15 @@ public class Crossover {
     //Basic concepts and idea behind implementation
     //https://www.geeksforgeeks.org/crossover-in-genetic-algorithm/
     /**
-     * In our implementation we choose one random point from y_axis(employees) to split
+     * In our implementation we choose one random point from x_axis(days) to split
      * our parentNodes.
      */
 
     public int[][] singlePointCross(){
-//        System.out.println("Parent Node 1");
-//        System.out.println(Arrays.deepToString(this.parentNode1).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
-//
-//        System.out.println("\n\nParent Node 2");
-//        System.out.println(Arrays.deepToString(this.parentNode2).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
 
         int MAX = this.x_axis-1;
         int rand = (int) (Math.random() * ((MAX - MIN) + 1)) + MIN;
-
-        //System.out.println("Random "+ rand);
 
         int[][] child1 = new int[this.x_axis][this.y_axis];
         int[][] child2 = new int[this.x_axis][this.y_axis];
@@ -58,32 +51,25 @@ public class Crossover {
                 }
             }
         }
-//
-//        System.out.println("\n\nchild Node 1");
-//        System.out.println(Arrays.deepToString(child1).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
-//
-//        System.out.println("\n\nchild Node 2");
-//        System.out.println(Arrays.deepToString(child2).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
         int randchoice = new Random().nextBoolean() ? 1 : 2;
 
         return randchoice == 1 ? child1 : child2;
     }
 
-    //TODO also change that for x axis
+    /**
+     * Very similar to single point crossover, this time simply make it a little more complex.
+     * We choose random points from x axis(days) to split and divide our parent arrays.
+     * Again 2 different child arrays are produced and we randomly choose which one to send back
+     * @return
+     */
     public int[][] multiplePointCrossover(){
-//                System.out.println("Parent Node 1");
-//        System.out.println(Arrays.deepToString(this.parentNode1).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
-//
-//        System.out.println("\n\nParent Node 2");
-//        System.out.println(Arrays.deepToString(this.parentNode2).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
         int MAX = this.x_axis-1;
 
         LinkedList<Integer> breakpoints = new LinkedList<>();
         for(int r = 0; r < MULTIBREAK; r++){
             int rand = (int) (Math.random() * ((MAX - MIN) + 1)) + MIN;
-            //System.out.println("Random "+ rand);
             //IMPORTANT: Do not add duplicate values
             if (!breakpoints.contains(rand)) breakpoints.add(rand);
         }
@@ -126,12 +112,6 @@ public class Crossover {
         }
 
         //Again choose randomly the final result
-//
-//        System.out.println("\n\nchild Node 1");
-//        System.out.println(Arrays.deepToString(child1).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
-//
-//        System.out.println("\n\nchild Node 2");
-//        System.out.println(Arrays.deepToString(child2).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
         int randchoice = new Random().nextBoolean() ? 1 : 2;
 

@@ -4,12 +4,7 @@ import java.util.Arrays;
 
 public class Mutation {
 
-    /**
-     * Mutation techniques based on the following citation
-     * https://www.hindawi.com/journals/mpe/2015/906305/
-     * The two techniques used are, two dimensional two point swapping
-     * mutation and two dimensional String Swapping mutations
-     */
+
     int[][] parent;
     int x_axis;
     int y_axis;
@@ -22,7 +17,15 @@ public class Mutation {
     }
 
     /**
-     * This method simply chooses two random rows(days) and swaps them.
+     * LEGACY METHODS: First two methods will not be used after testing. In our
+     * problem these methods will most likely make our chromosome invalid which is
+     * something that we do not necessarily want. We could add a new random chromosome
+     * but that made the results worse, so we chose not to use them
+     * Mutation techniques based on the following citation
+     * https://www.hindawi.com/journals/mpe/2015/906305/
+     */
+    /*
+     LEGACY: This method simply chooses two random rows(days) and swaps them.
      */
     public int[][] stringSwapping(){
 
@@ -31,16 +34,10 @@ public class Mutation {
         int rand1;
         int rand2;
 
-//        System.out.println("\n\nBefore mutation");
-//        System.out.println(Arrays.deepToString(child).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
-
         do{
             rand1 = (int) (Math.random() * ((MAX - MIN) + 1)) + MIN;
             rand2 = (int) (Math.random() * ((MAX - MIN) + 1)) + MIN;
         }while (rand1 == rand2);
-
-//        System.out.println("Rand1 "+rand1);
-//        System.out.println("Rand2 "+rand2);
 
         int tempArr[] = new int[this.y_axis];
         int firstVal = -1;
@@ -62,12 +59,12 @@ public class Mutation {
             }
         }
 
-//        System.out.println("\n\nAfter mutation");
-//        System.out.println(Arrays.deepToString(child).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
-
         return child;
     }
 
+    /*
+    LEGACY: This method simply chooses random point from our chromosome and swaps them
+     */
     public int[][] twoPointSwapping(){
 
 
@@ -78,8 +75,6 @@ public class Mutation {
         int randx, randxnext;
         int randy, randynext;
 
-//        System.out.println("\n\nBefore mutation");
-//        System.out.println(Arrays.deepToString(child).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
         do{
             randx = (int) (Math.random() * ((xMAX - MIN) + 1)) + MIN;
@@ -88,12 +83,6 @@ public class Mutation {
             randynext = (int) (Math.random() * ((yMAX - MIN) + 1)) + MIN;
 
         }while (randx == randxnext && randy == randynext);
-
-//        System.out.println("\n\nRandx "+randx);
-//        System.out.println("Randy "+randy);
-//        System.out.println("Randxnext "+randxnext);
-//        System.out.println("Randynext "+randynext);
-        //TODO Generate a random number. If random number larger than mutation rate proceed
 
 
         int[] firstVal = {-1,-1,-1};
@@ -115,12 +104,13 @@ public class Mutation {
             }
         }
 
-//        System.out.println("\n\nAfter mutation");
-//        System.out.println(Arrays.deepToString(child).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
-
         return child;
     }
 
+    /*
+    This method is used to swap two points located in the same row. Both row and
+    starting and finishing point are chosen randomly
+     */
     public int[][] twoPointSwappingSameRow(){
 
 
@@ -131,21 +121,13 @@ public class Mutation {
         int randx;
         int randy, randynext;
 
-//        System.out.println("\n\nBefore mutation");
-//        System.out.println(Arrays.deepToString(child).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
         do{
             randx = (int) (Math.random() * ((xMAX - MIN) + 1)) + MIN;
             randy = (int) (Math.random() * ((yMAX - MIN) + 1)) + MIN;
-            //randxnext = (int) (Math.random() * ((xMAX - MIN) + 1)) + MIN;
             randynext = (int) (Math.random() * ((yMAX - MIN) + 1)) + MIN;
 
         }while (randy == randynext);
-
-//        System.out.println("\n\nRandx "+randx);
-//        System.out.println("Randy "+randy);
-//        System.out.println("Randynext "+randynext);
-        //TODO Generate a random number. If random number larger than mutation rate proceed
 
 
         int[] firstVal = {-1,-1,-1};
@@ -167,12 +149,14 @@ public class Mutation {
             }
         }
 
-//        System.out.println("\n\nAfter mutation");
-//        System.out.println(Arrays.deepToString(child).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
-
         return child;
     }
 
+    /*
+    This method is used to inverse in a random day the content of a specific range.
+    We randomly choose the starting and the ending point and we inverse the elements in
+    that range
+     */
     public int[][] InverseDays(){
 
 
@@ -183,21 +167,15 @@ public class Mutation {
         int randx;
         int randy, randynext;
 
-//        System.out.println("\n\nBefore mutation");
-//        System.out.println(Arrays.deepToString(child).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+
 
         do{
             randx = (int) (Math.random() * ((xMAX - MIN) + 1)) + MIN;
             randy = (int) (Math.random() * ((yMAX - MIN) + 1)) + MIN;
-            //randxnext = (int) (Math.random() * ((xMAX - MIN) + 1)) + MIN;
             randynext = (int) (Math.random() * ((yMAX - MIN) + 1)) + MIN;
 
         }while (randy == randynext);
 
-//        System.out.println("\n\nRandx "+randx);
-//        System.out.println("Randy "+randy);
-//        System.out.println("Randynext "+randynext);
-        //TODO Generate a random number. If random number larger than mutation rate proceed
 
         int first;
         int last;
@@ -208,7 +186,7 @@ public class Mutation {
             first = randy;
             last = randynext;
         }
-        int[] firstVal = {-1,-1,-1};
+
         int index = 0;
         boolean flag = false;
         int[] revArr = new int[Math.abs(randy - randynext)+1];
@@ -217,8 +195,6 @@ public class Mutation {
             for(int y = 0; y < this.y_axis ; y++){
 
                 if( x == randx && y >=first && !flag){
-//                    System.out.println("FIRST "+ (y+index));
-//                    System.out.println("NEXT "+ (last-index));
 
                     if( (last-index) - (first+index) <= 0){
                         flag = true;
@@ -228,32 +204,10 @@ public class Mutation {
                     child[x][first+index] = child[x][last-index];
                     child[x][last-index] = revValue;
                     index++;
-
-
-
-//                    revArr[index++] = child[x][y];
-
-//                    if(firstVal[0] == -1){
-//                        firstVal[0] = x;
-//                        firstVal[1] = y;
-//                        firstVal[2] = child[x][y];
-//                    }else {
-//                        child[firstVal[0]][firstVal[1]] = child[x][y];
-//                        child[x][y] = firstVal[2];
-//
-//                    }
-
-
-                }
-
-                if(y == randy || y == randynext && index!=1){
-
                 }
             }
         }
 
-//        System.out.println("\n\nAfter mutation");
-//        System.out.println(Arrays.deepToString(child).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
 
         return child;
     }
