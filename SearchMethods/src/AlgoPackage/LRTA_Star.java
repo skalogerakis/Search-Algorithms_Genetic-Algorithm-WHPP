@@ -18,6 +18,7 @@ public class LRTA_Star {
     private int[] stepsMatrix;
     int minFValue;
     LinkedList<Nodes> visitedList = new LinkedList<>();
+    private int returnValue = -1;
 
     static class Nodes {
 
@@ -76,11 +77,11 @@ public class LRTA_Star {
     }
 
 
-    public int[] LRTA_StarSearch() {
+    public int LRTA_StarSearch() {
 
         nodeInitializer();
 
-        int[] returnValue = {0,-1};
+
         Nodes currentNode = new Nodes(this.startingX,this.startingY);
         this.visitedList.add(currentNode);
         currentNode.setParent(null);
@@ -89,14 +90,15 @@ public class LRTA_Star {
 
             if (this.grid.getCell(currentNode.curX,currentNode.curY).isTerminal()){
                 this.visitedList.addLast(currentNode);
-                returnValue[0] = 1;
-                returnValue[1] = currentNode.bestPathCost;
+                returnValue = currentNode.bestPathCost;
                 return returnValue;
             }
 
 
             this.minFValue = Integer.MAX_VALUE;
             Nodes nextNode = null;
+            //Direction: UP,RIGHT, LEFT, DOWN
+
 
             /**
              * Starting searching all your neighbours for min f value and assign it to
@@ -112,6 +114,14 @@ public class LRTA_Star {
 
             }
 
+            if(isValid(currentNode.curX, currentNode.curY + 1)){
+
+                this.grid.setCellVisited(currentNode.curX,currentNode.curY+1);
+                if(LTRA_F_Finder(currentNode.curX,currentNode.curY+1) < this.minFValue){
+                    this.minFValue = LTRA_F_Finder(currentNode.curX,currentNode.curY+1);
+                    nextNode = this.heuristicArea[currentNode.curX][currentNode.curY + 1];
+                }
+            }
 
             if(isValid(currentNode.curX-1,currentNode.curY)){
                 this.grid.setCellVisited(currentNode.curX - 1,currentNode.curY);
@@ -123,14 +133,7 @@ public class LRTA_Star {
             }
 
 
-            if(isValid(currentNode.curX, currentNode.curY + 1)){
 
-                this.grid.setCellVisited(currentNode.curX,currentNode.curY+1);
-                if(LTRA_F_Finder(currentNode.curX,currentNode.curY+1) < this.minFValue){
-                    this.minFValue = LTRA_F_Finder(currentNode.curX,currentNode.curY+1);
-                    nextNode = this.heuristicArea[currentNode.curX][currentNode.curY + 1];
-                }
-            }
 
             if(isValid(currentNode.curX+1,currentNode.curY)){
 
@@ -202,7 +205,7 @@ public class LRTA_Star {
      * to reach the final goal(All visited nodes)
      * @return
      */
-    public int[] getAllStepsMatrix() {
+    public int[] getAllStepsMatrix(int mode) {
 
         int counter = 0;
         int totalCost = 0;
@@ -210,7 +213,9 @@ public class LRTA_Star {
         for(int i = 0; i< this.grid.getNumOfRows();i++){
             for(int j = 0; j < this.grid.getNumOfColumns();j++){
                 if(this.grid.isCellVisited(i,j) && !this.grid.getCell(i,j).isStart() && !this.grid.getCell(i,j).isTerminal()){
-                    stepsMatrix[counter] = i * this.grid.getNumOfColumns() + j;
+                    if(mode == 1){
+                        stepsMatrix[counter] = i * this.grid.getNumOfColumns() + j;
+                    }
                     totalCost += this.grid.getCell(i,j).getCost();
                     counter++;
                 }
@@ -218,7 +223,7 @@ public class LRTA_Star {
             }
         }
 
-        System.out.println("Total cost "+totalCost);
+        System.out.println("Full Total cost "+totalCost);
         return stepsMatrix;
     }
 

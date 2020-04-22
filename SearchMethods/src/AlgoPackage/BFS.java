@@ -3,7 +3,6 @@ package AlgoPackage;
 import MainPackage.*;
 
 import java.util.LinkedList;
-import java.util.List;
 
 
 public class BFS {
@@ -14,7 +13,7 @@ public class BFS {
     private boolean flag=false;
     private int startingX;
     private int startingY;
-    private int[] returnValue = {0,-1};
+    private int returnValue = -1;
 
     LinkedList <Nodes> visitedList = new LinkedList<>();
 
@@ -65,7 +64,7 @@ public class BFS {
 
 
     //TODO add for everything the same direction in the end. Change return and add comment.
-    public int[] BFS_search(){
+    public int BFS_search(){
 
         LinkedList <Nodes> queue = new LinkedList<Nodes>();
 
@@ -84,22 +83,7 @@ public class BFS {
         while(!queue.isEmpty() && !this.flag){
             Nodes curNode = queue.poll();
 
-
-            if(isValid(curNode.curX-1,curNode.curY)){
-                this.grid.setCellVisited(curNode.curX-1,curNode.curY);
-                Nodes temp = new Nodes(curNode.curX-1,curNode.curY,true,curNode.bestPathCost + this.curCost);
-                queue.add(temp);
-                temp.setParent(curNode);
-
-                if(flag){
-                    this.visitedList.addLast(temp);
-                    returnValue[1] = curNode.bestPathCost+1;
-                    continue;
-                }else {
-                    this.visitedList.add(temp);
-                }
-            }
-
+            //Direction: UP,RIGHT, LEFT, DOWN
             if(isValid(curNode.curX,curNode.curY-1)){
                 this.grid.setCellVisited(curNode.curX,curNode.curY-1);
                 Nodes temp = new Nodes(curNode.curX,curNode.curY-1,true,curNode.bestPathCost + this.curCost);
@@ -108,14 +92,13 @@ public class BFS {
 
                 if(flag){
                     this.visitedList.addLast(temp);
-                    returnValue[1] = curNode.bestPathCost+1;
+                    returnValue = curNode.bestPathCost+1;
                     continue;
                 }else {
                     this.visitedList.add(temp);
                 }
 
             }
-
 
             if(isValid(curNode.curX,curNode.curY+1)){
                 this.grid.setCellVisited(curNode.curX,curNode.curY+1);
@@ -125,14 +108,27 @@ public class BFS {
 
                 if(flag){
                     this.visitedList.addLast(temp);
-                    returnValue[1] = curNode.bestPathCost+1;
+                    returnValue = curNode.bestPathCost+1;
                     continue;
                 }else {
                     this.visitedList.add(temp);
                 }
             }
 
+            if(isValid(curNode.curX-1,curNode.curY)){
+                this.grid.setCellVisited(curNode.curX-1,curNode.curY);
+                Nodes temp = new Nodes(curNode.curX-1,curNode.curY,true,curNode.bestPathCost + this.curCost);
+                queue.add(temp);
+                temp.setParent(curNode);
 
+                if(flag){
+                    this.visitedList.addLast(temp);
+                    returnValue = curNode.bestPathCost+1;
+                    continue;
+                }else {
+                    this.visitedList.add(temp);
+                }
+            }
 
             if(isValid(curNode.curX+1,curNode.curY)){
                 this.grid.setCellVisited(curNode.curX+1,curNode.curY);
@@ -143,7 +139,7 @@ public class BFS {
 
                 if(flag){
                     this.visitedList.addLast(temp);
-                    returnValue[1] = curNode.bestPathCost+1;
+                    returnValue = curNode.bestPathCost+1;
                     continue;
                 }else {
                     this.visitedList.add(temp);
@@ -172,7 +168,6 @@ public class BFS {
         //Check termination point
         if(grid.getCell(nextX,nextY).isTerminal()){
             this.flag = true;
-            returnValue[0] = 1;
         }
         return true;
 
@@ -211,10 +206,11 @@ public class BFS {
 
     /**
      * Function created for visualization purposes in the Drawing. It demanded a 1d array with all the steps required
-     * to reach the final goal(All visited nodes)
+     * to reach the final goal(All visited nodes). Mode parameter should be 1 if we wish to visualize the grid. In case
+     * we want only to get total cost assign to zero
      * @return
      */
-    public int[] getAllStepsMatrix() {
+    public int[] getAllStepsMatrix(int mode) {
 
         int counter = 0;
         int totalCost = 0;
@@ -222,7 +218,9 @@ public class BFS {
         for(int i = 0; i< this.grid.getNumOfRows();i++){
             for(int j = 0; j < this.grid.getNumOfColumns();j++){
                 if(this.grid.isCellVisited(i,j) && !this.grid.getCell(i,j).isStart() && !this.grid.getCell(i,j).isTerminal()){
-                    stepsMatrix[counter] = i * this.grid.getNumOfColumns() + j;
+                    if(mode == 1){
+                        stepsMatrix[counter] = i * this.grid.getNumOfColumns() + j;
+                    }
                     totalCost += this.grid.getCell(i,j).getCost();
                     counter++;
                 }
@@ -230,9 +228,10 @@ public class BFS {
             }
         }
 
-        System.out.println("Total cost "+totalCost);
+        System.out.println("Full Total cost "+totalCost);
         return stepsMatrix;
     }
+
 
 
 

@@ -1,17 +1,14 @@
 package AlgoPackage;
 
 import MainPackage.*;
-
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 //Based on pseudocode _DFS iterative in that page
 //https://www.hackerearth.com/practice/algorithms/graphs/depth-first-search/tutorial/
 
 public class DFS {
 
-    private int[] returnValue = {0,-1};
+    private int returnValue = -1;
     private Grid grid;
     private int startingX;
     private int startingY;
@@ -57,7 +54,7 @@ public class DFS {
         this.stepsMatrix = new int[(this.grid.getNumOfColumns()+1)*(this.grid.getNumOfRows()+1)];
     }
 
-    public int[] DFS_Search(){
+    public int DFS_Search(){
 
 
         LinkedList<Node> stack = new LinkedList<>();
@@ -72,16 +69,15 @@ public class DFS {
 
         while (!stack.isEmpty()){
             Node current = stack.poll();
+            //Direction: UP,RIGHT, LEFT, DOWN
 
 
             if(grid.getCell(current.curX,current.curY).isTerminal()) {
-                returnValue[0] = 1;
-                returnValue[1] = current.bestPathCost;
+                returnValue = current.bestPathCost;
                 this.visitedList.addLast(current);
                 return returnValue;
             }
 
-            //current.setVisited(true);
             this.grid.setCellVisited(current.curX,current.curY);
             this.visitedList.add(current);
 
@@ -89,7 +85,19 @@ public class DFS {
             int curCost = this.grid.getCell(current.curX,current.curY).getCost();
             current.bestPathCost =  current.bestPathCost + curCost;
 
+            //Go Up
+            if(isValid(current.curX,current.curY - 1)){
+                Node temp = new Node(current.curX, current.curY - 1,false,current.bestPathCost);
+                stack.push(temp);
+                temp.setParent(current);
+            }
 
+            //Go Right
+            if(isValid(current.curX + 1,current.curY)){
+                Node temp = new Node(current.curX + 1, current.curY,false,current.bestPathCost);
+                stack.push(temp);
+                temp.setParent(current);
+            }
 
             //Go Left
             if(isValid(current.curX - 1, current.curY)){
@@ -105,19 +113,9 @@ public class DFS {
                 temp.setParent(current);
             }
 
-            //Go Right
-            if(isValid(current.curX + 1,current.curY)){
-                Node temp = new Node(current.curX + 1, current.curY,false,current.bestPathCost);
-                stack.push(temp);
-                temp.setParent(current);
-            }
 
-            //Go Up
-            if(isValid(current.curX,current.curY - 1)){
-                Node temp = new Node(current.curX, current.curY - 1,false,current.bestPathCost);
-                stack.push(temp);
-                temp.setParent(current);
-            }
+
+
 
         }
 
@@ -177,7 +175,7 @@ public class DFS {
      * to reach the final goal(All visited nodes)
      * @return
      */
-    public int[] getAllStepsMatrix() {
+    public int[] getAllStepsMatrix(int mode) {
 
         int counter = 0;
         int totalCost = 0;
@@ -185,7 +183,9 @@ public class DFS {
         for(int i = 0; i< this.grid.getNumOfRows();i++){
             for(int j = 0; j < this.grid.getNumOfColumns();j++){
                 if(this.grid.isCellVisited(i,j) && !this.grid.getCell(i,j).isStart() && !this.grid.getCell(i,j).isTerminal()){
-                    stepsMatrix[counter] = i * this.grid.getNumOfColumns() + j;
+                    if(mode == 1){
+                        stepsMatrix[counter] = i * this.grid.getNumOfColumns() + j;
+                    }
                     totalCost += this.grid.getCell(i,j).getCost();
                     counter++;
                 }
@@ -193,7 +193,7 @@ public class DFS {
             }
         }
 
-        System.out.println("Total cost "+totalCost);
+        System.out.println("Full Total cost "+totalCost);
         return stepsMatrix;
     }
 }

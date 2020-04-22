@@ -283,10 +283,12 @@ public class Grid {
 		return myArr;
 	}
 
-//	public void GridPrinter(){
-//		for (int[] row : this.mygrid)
-//			// converting each row as string
-//			// and then printing in a separate line
-//			System.out.println(Arrays.toString(row));
-//	}
+	public void setVisitedFalse(){
+		for (int i = 0; i<this.N; i++){
+			for(int j = 0; j<this.M; j++){
+				this.mygridvisited[i][j] = false;
+			}
+		}
+	}
+
 }

@@ -6,12 +6,10 @@ package MainPackage; /**
 	term 		: 	Spring 2019-2020
 	date 		:   March 2020
 */
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Color;
-import java.util.ArrayList;
 import java.awt.Canvas;
 import java.util.stream.IntStream;
 import AlgoPackage.*;
@@ -58,75 +56,101 @@ class GridGenerator{
 		int N = mygrid.getNumOfRows();
 		int M = mygrid.getNumOfColumns();
 
-		//TODO visualize init maze
-		//VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mygrid.getStartidx(),mygrid.getTerminalidx());
-
-//		int[] start = mygrid.getStart();
-//		int[] terminal = mygrid.getTerminal();
-		int[] walls = mygrid.getWalls();
-		int[] grass = mygrid.getGrass();
-//		System.out.println("start: "+mygrid.getStart()[0]);
-//		System.out.println("startid: "+mygrid.getStartidx());
-//		System.out.println("terminal: "+mygrid.getTerminal()[0]);
-//		System.out.println("terminalid: "+mygrid.getTerminalidx());
+		//Visualize initial maze
+		VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mygrid.getStartidx(),mygrid.getTerminalidx());
 
 
-		int[][] grid2D = mygrid.gridto2D();
-
-//		_DFS mydfs = new _DFS(mygrid.getStart()[0],mygrid.getStart()[1],N ,M,grid2D);
-//
-//		int[] steps = mydfs.getStepsMatrix();
-//
-//		VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),steps,mygrid.getStartidx(),mygrid.getTerminalidx());
-
-		/*TODO only details left for BFS
-		BFS mybfs = new BFS(mygrid, mygrid.getStart()[0],mygrid.getStart()[1]);
-
-		int BFSResult[] = mybfs.BFS_search();
-
-		if(BFSResult[0] == 0) System.out.println("\nBFS Algorithm could not found route!\n");
-
-		else System.out.println("\nMYYYY BFS Algorithm found route with cost: " + BFSResult[1] + " steps");
+		int userChoice = 0;
+		do{
+			Scanner scanner = new Scanner(System.in);
+			System.out.println("\nPlease choose the number of the algorithm to show results");
+			System.out.println("Any other input will lead to termination");
+			System.out.println("1. BFS");
+			System.out.println("2. DFS");
+			System.out.println("3. A*");
+			System.out.println("4. LTRA*\n");
 
 
-		GridGenerator.VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mybfs.getAllStepsMatrix(),mygrid.getStartidx(),mygrid.getTerminalidx());
-		*/
+			try{
+				userChoice = scanner.nextInt();
+			}catch (InputMismatchException io){
 
-		/*Todo details left similar to bfs
-		DFS mydfs = new DFS(mygrid, mygrid.getStart()[0],mygrid.getStart()[1]);
+			}
 
-		int DFSResult[] = mydfs.DFS_Search();
-
-		if(DFSResult[0] == 0) System.out.println("\nBFS Algorithm could not found route!\n");
-
-		else System.out.println("\nMYYYY BFS Algorithm found route with cost: " + DFSResult[1] + " steps");
-
-
-		GridGenerator.VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mydfs.getAllStepsMatrix(),mygrid.getStartidx(),mygrid.getTerminalidx());
-		*/
-
-		/*todo details left here
-		A_Star mystar = new A_Star(mygrid, mygrid.getStart()[0],mygrid.getStart()[1]);
-
-		int StarResult[] = mystar.A_StarSearch();
-
-		if(StarResult[0] == 0) System.out.println("\nBFS Algorithm could not found route!\n");
-
-		else System.out.println("\nMYYYY BFS Algorithm found route with cost: " + StarResult[1] + " steps");
+			//Exit status
+			if(userChoice == 9){
+				System.exit(9);
+			}
 
 
-		GridGenerator.VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mystar.getAllStepsMatrix(),mygrid.getStartidx(),mygrid.getTerminalidx());
-		*/
-		LRTA_Star mystar = new LRTA_Star(mygrid, mygrid.getStart()[0],mygrid.getStart()[1]);
-
-		int StarResult[] = mystar.LRTA_StarSearch();
-
-		if(StarResult[0] == 0) System.out.println("\nBFS Algorithm could not found route!\n");
-
-		else System.out.println("\nMYYYY BFS Algorithm found route with cost: " + StarResult[1] + " steps");
+//		}while(userChoice != 1 && userChoice != 2 && userChoice != 3 && userChoice != 4);
 
 
-		GridGenerator.VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mystar.getAllStepsMatrix(),mygrid.getStartidx(),mygrid.getTerminalidx());
+		if(userChoice == 1){	//BFS choice
+			BFS mybfs = new BFS(mygrid, mygrid.getStart()[0],mygrid.getStart()[1]);
+
+			int result = mybfs.BFS_search();
+
+			if(result == -1){
+				System.out.println("Something went wrong could not find route!");
+			}else {
+				System.out.println("Best path cost: " + result);
+			}
+
+			int[] allSteps = mybfs.getAllStepsMatrix(0);
+
+			GridGenerator.VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mybfs.getStepsMatrix(),mygrid.getStartidx(),mygrid.getTerminalidx());
+
+		}else if(userChoice == 2){
+			DFS mydfs = new DFS(mygrid, mygrid.getStart()[0],mygrid.getStart()[1]);
+
+			int result = mydfs.DFS_Search();
+
+			if(result == -1){
+				System.out.println("Something went wrong could not find route!");
+			}else {
+				System.out.println("Best path cost: " + result);
+			}
+
+			int[] all_steps = mydfs.getAllStepsMatrix(0);
+
+			GridGenerator.VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mydfs.getStepsMatrix(),mygrid.getStartidx(),mygrid.getTerminalidx());
+
+		}else if(userChoice == 3){
+			A_Star mystar = new A_Star(mygrid, mygrid.getStart()[0],mygrid.getStart()[1]);
+
+			int result = mystar.A_StarSearch();
+
+			if(result == -1){
+				System.out.println("Something went wrong could not find route!");
+			}else {
+				System.out.println("Best path cost: " + result);
+			}
+
+			int[] all_steps = mystar.getAllStepsMatrix(0);
+
+			GridGenerator.VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mystar.getStepsMatrix(),mygrid.getStartidx(),mygrid.getTerminalidx());
+
+		}else if(userChoice == 4){
+			LRTA_Star mystar = new LRTA_Star(mygrid, mygrid.getStart()[0],mygrid.getStart()[1]);
+
+			int result = mystar.LRTA_StarSearch();
+
+			if(result == -1){
+				System.out.println("Something went wrong could not find route!");
+			}else {
+				System.out.println("Best path cost: " + result);
+			}
+
+			int[] all_steps = mystar.getAllStepsMatrix(0);
+
+			GridGenerator.VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mystar.getStepsMatrix(),mygrid.getStartidx(),mygrid.getTerminalidx());
+
+		}
+		//Re-initialize every time visited table to get right results
+		mygrid.setVisitedFalse();
+
+		}while(userChoice != 9);
 
 
 	}

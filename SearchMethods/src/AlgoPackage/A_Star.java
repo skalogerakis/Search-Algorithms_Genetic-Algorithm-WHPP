@@ -19,6 +19,7 @@ public class A_Star {
     private int startingX;
     private int startingY;
     private int[] stepsMatrix;
+    private int returnValue = -1;
 
     LinkedList<Nodes> visitedList = new LinkedList<>();
 
@@ -95,43 +96,42 @@ public class A_Star {
 
     }
 
-    public int[] A_StarSearch() {
+    public int A_StarSearch() {
 
         nodeInitializer();
 
         this.openList = new NoDuplicates<Nodes>();
 
-        int[] returnValue = {0,-1};
+
         openList.add(new Nodes(this.startingX,this.startingY));
         while (!openList.isEmpty()) {
 
             Nodes currentNode = openList.poll();
+            //Direction: UP,RIGHT, LEFT, DOWN
 
             if (this.grid.getCell(currentNode.curX,currentNode.curY).isTerminal()) {
                 this.visitedList.addLast(currentNode);
-                returnValue[0] = 1;
-                returnValue[1] = currentNode.f_score + 1;
-                //todo reconstruct path
+                returnValue = currentNode.f_score + 1;
                 break;
             }
 
             int cost = this.grid.getCell(currentNode.curX,currentNode.curY).getCost();
 
-            if(isValid(currentNode.curX-1,currentNode.curY)){
-                neighbourCheck(currentNode, currentNode.curX - 1, currentNode.curY, cost);
-            }
-
             if(isValid(currentNode.curX,currentNode.curY - 1)){
                 neighbourCheck(currentNode, currentNode.curX,currentNode.curY - 1, cost);
             }
 
-            if(isValid(currentNode.curX, currentNode.curY + 1)){
-                neighbourCheck(currentNode, currentNode.curX,currentNode.curY + 1, cost);
+            if(isValid(currentNode.curX+1,currentNode.curY)){
+                neighbourCheck(currentNode, currentNode.curX + 1, currentNode.curY, cost);
+            }
+
+            if(isValid(currentNode.curX-1,currentNode.curY)){
+                neighbourCheck(currentNode, currentNode.curX - 1, currentNode.curY, cost);
             }
 
 
-            if(isValid(currentNode.curX+1,currentNode.curY)){
-                neighbourCheck(currentNode, currentNode.curX + 1, currentNode.curY, cost);
+            if(isValid(currentNode.curX, currentNode.curY + 1)){
+                neighbourCheck(currentNode, currentNode.curX,currentNode.curY + 1, cost);
             }
 
             closedSet.add(currentNode);
@@ -246,7 +246,7 @@ public class A_Star {
      * to reach the final goal(All visited nodes)
      * @return
      */
-    public int[] getAllStepsMatrix() {
+    public int[] getAllStepsMatrix(int mode) {
 
         int counter = 0;
         int totalCost = 0;
@@ -254,7 +254,10 @@ public class A_Star {
         for(int i = 0; i< this.grid.getNumOfRows();i++){
             for(int j = 0; j < this.grid.getNumOfColumns();j++){
                 if(this.grid.isCellVisited(i,j) && !this.grid.getCell(i,j).isStart() && !this.grid.getCell(i,j).isTerminal()){
-                    stepsMatrix[counter] = i * this.grid.getNumOfColumns() + j;
+                    if(mode == 1){
+                        stepsMatrix[counter] = i * this.grid.getNumOfColumns() + j;
+
+                    }
                     totalCost += this.grid.getCell(i,j).getCost();
                     counter++;
                 }
@@ -262,7 +265,7 @@ public class A_Star {
             }
         }
 
-        System.out.println("Total cost "+totalCost);
+        System.out.println("Full Total cost "+totalCost);
         return stepsMatrix;
     }
 
