@@ -7,8 +7,6 @@ import org.knowm.xchart.demo.charts.ExampleChart;
 import utils.*;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 public class MainClass {
 
@@ -16,14 +14,14 @@ public class MainClass {
 
     final static int x_Axis_Days = 14;
     final static int y_Axis_Employees = 30;
-    final static int ITERATIONS = 150;
-    final static double p_sel = 0.05; // selection probability
-    final static double p_cross = 0.9; //crossover probability
-    final static double p_mut = 0.05; //mutation probability
-    final static double p_loc = 0.9;
+    final static int ITERATIONS = 50;
+    final static double p_sel = 0.1; // selection probability
+    final static double p_cross = 0.95; //crossover probability
+    final static double p_mut = 0.01; //mutation probability
+    final static double p_loc = 0.7;
 
 
-    static int population = 5000;
+    static int population = 7000;
 
 
     public static void main(String args[]) {
@@ -62,10 +60,10 @@ public class MainClass {
 
             for(int i = 0; i < populationData.size(); i++){
 
-                double p_sel_roll = new Random().nextDouble();//0.05;
-                double p_cross_roll = new Random().nextDouble(); //0.15;
-                double p_mut_roll = new Random().nextDouble();//0.15;
-                double p_loc_roll = new Random().nextDouble();//0.7;
+                double p_sel_roll = new Random().nextDouble();
+                double p_cross_roll = new Random().nextDouble();
+                double p_mut_roll = new Random().nextDouble();
+                double p_loc_roll = new Random().nextDouble();
 
 
                 int parent1= -1;
@@ -111,7 +109,7 @@ public class MainClass {
                     Statistics par2 = populationData.get(parent2);
                     Crossover crossover = new Crossover(par1.getPopulation(),par2.getPopulation(),x_Axis_Days,y_Axis_Employees);
 
-                    child = crossover.multiplePointCrossover();
+                    child = crossover.singlePointCross();
 
                     if(p_mut_roll < p_mut){
                         Mutation mutation = new Mutation(child, x_Axis_Days, y_Axis_Employees);
@@ -137,7 +135,7 @@ public class MainClass {
                                 child = par2.getPopulation();
                             }
                         }else {
-                            child = mutation.InverseDays();
+                            child = mutation.twoPointSwappingSameRow();
                         }
                         /**
                          * Local Search implementation. A hill climbing implementation to
