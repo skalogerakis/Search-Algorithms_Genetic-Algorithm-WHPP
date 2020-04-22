@@ -19,7 +19,7 @@ public class Crossover {
     }
 
     //Basic concepts and idea behind implementation
-    //https://www.geeksforgeeks.org/crossover-in-genetic-algorithm/
+    // https://www.geeksforgeeks.org/crossover-in-genetic-algorithm/
     /**
      * In our implementation we choose one random point from x_axis(days) to split
      * our parentNodes.

@@ -16,10 +16,12 @@ public class MainClass {
 
     final static int x_Axis_Days = 14;
     final static int y_Axis_Employees = 30;
-    final static int ITERATIONS = 15;
+    final static int ITERATIONS = 150;
     final static double p_sel = 0.05; // selection probability
-    final static double p_cross = 0.15; //crossover probability
-    final static double p_mut = 0.15; //mutation probability
+    final static double p_cross = 0.9; //crossover probability
+    final static double p_mut = 0.05; //mutation probability
+    final static double p_loc = 0.9;
+
 
     static int population = 5000;
 
@@ -63,7 +65,9 @@ public class MainClass {
                 double p_sel_roll = new Random().nextDouble();//0.05;
                 double p_cross_roll = new Random().nextDouble(); //0.15;
                 double p_mut_roll = new Random().nextDouble();//0.15;
-                
+                double p_loc_roll = new Random().nextDouble();//0.7;
+
+
                 int parent1= -1;
                 int parent2= -1;
 
@@ -96,24 +100,55 @@ public class MainClass {
 //                    Statistics par2 = secondhalf.get(parent2);
                 int[][] child = populationData.get(parent1).getPopulation();
 
-                //TODO maybe add a check here about parent values
                 /**
                  * Checked what is better when crossover does not happen(whether to generate new random or simply use a parent)
                  * And it was much better to simply pass the parent in the next generation
                  */
 
 
-                if(p_cross_roll > p_cross){
+                if(p_cross_roll < p_cross){
                     Statistics par1 = populationData.get(parent1);
                     Statistics par2 = populationData.get(parent2);
                     Crossover crossover = new Crossover(par1.getPopulation(),par2.getPopulation(),x_Axis_Days,y_Axis_Employees);
 
-                    child = crossover.singlePointCross();
+                    child = crossover.multiplePointCrossover();
 
-                    if(p_mut_roll > p_mut){
+                    if(p_mut_roll < p_mut){
                         Mutation mutation = new Mutation(child, x_Axis_Days, y_Axis_Employees);
-                        child = mutation.twoPointSwappingSameRow();
-//                        child = mutation.InverseDays();
+
+
+                        if(p_loc_roll < p_loc){
+                            int[][] child1 = mutation.twoPointSwappingSameRow();
+                            int[][] child2 = mutation.InverseDays();
+
+                            //We produce score for nominee children and choose min
+                            int child1sc = new Constraints(x_Axis_Days,y_Axis_Employees,child1).fitnessCheck();
+                            int child2sc = new Constraints(x_Axis_Days,y_Axis_Employees,child2).fitnessCheck();
+
+                            int max =  Math.min(Math.min(child1sc,child2sc),Math.min(par1.getScore(),par2.getScore()));
+
+                            if(max == child1sc){
+                                child = child1;
+                            }else if(max == child2sc){
+                                child = child2;
+                            }else if(max == par1.getScore()){
+                                child = par1.getPopulation();
+                            }else{
+                                child = par2.getPopulation();
+                            }
+                        }else {
+                            child = mutation.InverseDays();
+                        }
+                        /**
+                         * Local Search implementation. A hill climbing implementation to
+                         * track local minimum
+                         * We compare chromosomes from current parents, and the two different
+                         * methods implemented and we choose the min(best score). As you may observe
+                         * we only do fitness check and not feasibility as we are sure that our
+                         * children will be feasible. At any case a feasibility check is conducted
+                         * afterwards, so in a case that something went wrong the problem is fixed
+                         */
+
                     }
 
                 }
@@ -141,7 +176,7 @@ public class MainClass {
 
         System.out.println("Best and average score per generation");
         for(int g = 0; g < bestChrom.size(); g++){
-            System.out.println("Generation :"+ g + ", Best score: "+bestChrom.get(g)+", Average score: "+avgChrom.get(g));
+            System.out.println("Generation :"+ (g+1) + ", Best score: "+bestChrom.get(g)+", Average score: "+avgChrom.get(g));
         }
 
         // Plotting usign XChart https://github.com/knowm/XChart(Jar already included)

@@ -18,11 +18,18 @@ public class Constraints {
     int x_Days;
     int y_Employees;
     ArrayList<int[][]> population;
+    int[][] child;
 
     public Constraints(int x_Days, int y_Employees, ArrayList<int[][]> population){
         this.x_Days = x_Days;
         this.y_Employees = y_Employees;
         this.population = population;
+    }
+
+    public Constraints(int x_Days, int y_Employees, int[][] child){
+        this.x_Days = x_Days;
+        this.y_Employees = y_Employees;
+        this.child = child;
     }
 
     /*
@@ -249,5 +256,146 @@ public class Constraints {
 
     }
 
+    /*
+    The exact same as fitness fuction but, this is used to get score table
+    for a single chromosome
+     */
+    public int fitnessCheck(){
+        Statistics mystats = new Statistics(-1, 0, child);
 
+        int hoursWork;
+        int consecutiveDays;
+        int consecutiveNights;
+        boolean prevNight_nextMor;
+        boolean prevNoon_nextMor;
+        boolean prevNight_nextNoon;
+        int nightShifts;
+        int daysoff;
+        int daysworkcounter;
+        int consecutiveWeekends;
+        int offWorkoff;
+        int WorkoffWork;
+
+        for(int j=0;j<this.y_Employees;j++){
+            hoursWork = 0;
+            consecutiveDays = 0;
+            consecutiveNights = 0;
+            prevNight_nextMor=false;
+            prevNoon_nextMor=false;
+            prevNight_nextNoon = false;
+            nightShifts = 0;
+            daysoff=0;
+            daysworkcounter=0;
+            consecutiveWeekends=0;
+            offWorkoff=2;
+            WorkoffWork=2;
+
+            for(int k=0;k<this.x_Days;k++){
+                if(this.child[k][j] == 1){
+                    hoursWork += 8;
+                    consecutiveDays++;
+                    consecutiveNights=0;
+                    //In case shift night and next morning
+                    if(prevNight_nextMor){
+                        mystats.score += 1000;
+                        prevNight_nextMor = false;
+                    }
+                    //In case shift noon and next morning
+                    if(prevNoon_nextMor){
+                        mystats.score += 800;
+                        prevNoon_nextMor = false;
+                    }
+
+                    prevNight_nextNoon = false;
+                    daysworkcounter++;
+                    offWorkoff++;
+                    if(WorkoffWork == 1){
+                        mystats.score += 1;
+                    }
+                    WorkoffWork=0;
+                }else if(this.child[k][j] == 2){
+                    hoursWork += 8;
+                    consecutiveDays++;
+                    consecutiveNights=0;
+                    prevNight_nextMor = false;
+                    prevNoon_nextMor = true;
+                    if(prevNight_nextNoon){
+                        mystats.score += 800;
+                        prevNight_nextNoon = false;
+                    }
+                    daysworkcounter++;
+                    offWorkoff++;
+                    if(WorkoffWork == 1){
+                        mystats.score += 1;
+                    }
+                    WorkoffWork=0;
+                }else if(this.child[k][j] == 3){
+                    hoursWork += 10;
+                    consecutiveDays++;
+                    consecutiveNights++;
+                    prevNight_nextMor = true;
+                    prevNoon_nextMor = false;
+                    prevNight_nextNoon = true;
+                    nightShifts++;
+                    daysworkcounter++;
+                    offWorkoff++;
+                    if(WorkoffWork == 1){
+                        mystats.score += 1;
+                    }
+                    WorkoffWork=0;
+                }else{
+                    consecutiveDays=0;
+                    consecutiveNights=0;
+                    prevNight_nextMor = false;
+                    prevNoon_nextMor = false;
+                    prevNight_nextNoon = false;
+                    daysoff++;
+                    //case employee works day off then works and then again day off
+                    if(offWorkoff == 1){
+                        mystats.score += 1;
+                    }
+                    offWorkoff = 0;
+                    WorkoffWork++;
+                }
+
+                if((k == (this.x_Days/2 - 2) || k == (this.x_Days/2 - 1) || (k == this.x_Days - 2) || (k == this.x_Days - 1)) && this.child[k][j]!=0){
+                    consecutiveWeekends++;
+                }
+
+            }
+            //case employee works over 70 hours
+            if(hoursWork > 70){
+                mystats.score += 1000;
+            }
+
+            //case employee works over 7 consecutive days
+            if(consecutiveDays > 7){
+                mystats.score += 1000;
+            }
+
+            //case employee works over 4 consecutive night shifts
+            if(consecutiveNights > 4){
+                mystats.score += 1000;
+            }
+
+            //case employee works over 4 night shifts must be assigned with at least two days off
+            if(nightShifts >=4 && daysoff<2){
+                mystats.score += 100;
+            }
+
+            //case employee works over 7 days must be assigned with at least two days off
+            if(daysworkcounter >=7 && daysoff<2){
+                mystats.score += 100;
+            }
+
+            //case employee works both weekends(4 days)
+            if(consecutiveWeekends == 4){
+                mystats.score += 1;
+            }
+
+
+        }
+        return  mystats.score;
+
+    }
 }
