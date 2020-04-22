@@ -64,11 +64,11 @@ class GridGenerator{
 		do{
 			Scanner scanner = new Scanner(System.in);
 			System.out.println("\nPlease choose the number of the algorithm to show results");
-			System.out.println("Any other input will lead to termination");
 			System.out.println("1. BFS");
 			System.out.println("2. DFS");
 			System.out.println("3. A*");
-			System.out.println("4. LTRA*\n");
+			System.out.println("4. LTRA*");
+			System.out.println("9. Termination\n");
 
 
 			try{
