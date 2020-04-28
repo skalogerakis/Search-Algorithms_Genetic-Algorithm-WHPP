@@ -14,8 +14,6 @@ public class Cell {
 	private boolean starting_point;
 	private boolean terminal_point;
 	private char cell_type = 'L'; // l stands for Land
-	private boolean visited;
-	private Cell parent;
 
 	Cell (){		
 		this.starting_point = false;

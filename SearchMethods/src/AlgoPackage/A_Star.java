@@ -45,7 +45,6 @@ public class A_Star {
         }
 
 
-        //TODO CHANGE THAT
         public int calculateHeuristic(Nodes finalNode) {
             this.h_score = Math.abs(finalNode.curX - curX) + Math.abs(finalNode.curY - curY);
             return this.h_score;

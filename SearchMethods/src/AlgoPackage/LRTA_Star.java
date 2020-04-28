@@ -35,7 +35,6 @@ public class LRTA_Star {
 
         }
 
-        //TODO CHANGE THAT
         public int calculateHeuristic(Nodes finalNode) {
             this.heuristic = Math.abs(finalNode.curX - curX) + Math.abs(finalNode.curY - curY);
             return this.heuristic;
@@ -43,6 +42,10 @@ public class LRTA_Star {
 
         public void setParent(Nodes parent) {
             this.parent = parent;
+        }
+
+        public Nodes getParent() {
+            return this.parent;
         }
 
 
@@ -133,8 +136,6 @@ public class LRTA_Star {
             }
 
 
-
-
             if(isValid(currentNode.curX+1,currentNode.curY)){
 
                 this.grid.setCellVisited(currentNode.curX + 1,currentNode.curY);
@@ -147,12 +148,17 @@ public class LRTA_Star {
 
             //assign min f value to current Node heuristic function
             this.heuristicArea[currentNode.curX][currentNode.curY].heuristic = minFValue;
-            //TODO CHECK THAT
-            int cost = this.grid.getCell(nextNode.curX,nextNode.curY).isGrass() ? 2 : 1;
+            int cost = this.grid.getCell(nextNode.curX,nextNode.curY).isGrass() ? 10 : 1;
 
-            nextNode.bestPathCost = currentNode.bestPathCost + cost;
-            nextNode.setParent(currentNode);
-            this.visitedList.add(nextNode);
+            /**
+             * Add only when we find the best path, to the path and value
+             */
+            if(!this.visitedList.contains(nextNode)){
+                nextNode.bestPathCost = currentNode.bestPathCost + cost;
+                nextNode.setParent(currentNode);
+                this.visitedList.add(nextNode);
+            }
+
             currentNode = nextNode;
 
         }
@@ -161,7 +167,7 @@ public class LRTA_Star {
 
 
     private int LTRA_F_Finder(int nextX, int nextY){
-        int currentVal = this.grid.getCell(nextX,nextY).isGrass() ? 2 : 1;
+        int currentVal = this.grid.getCell(nextX,nextY).isGrass() ? 10 : 1;
 
         return this.heuristicArea[nextX][nextY].heuristic + currentVal;
     }
@@ -188,13 +194,26 @@ public class LRTA_Star {
      */
     public int[] getStepsMatrix() {
 
-        Nodes nodeback = visitedList.pollLast();
+        Nodes nodeback = visitedList.getLast().getParent();
+
         int counter = 0;
 
-        while (!visitedList.isEmpty()) {
+        while (nodeback != null) {
             stepsMatrix[counter] = nodeback.curX * this.grid.getNumOfColumns() + nodeback.curY;
             counter++;
-            nodeback = visitedList.pollLast();
+
+            for (int i = 0; i < visitedList.size(); i++) {
+                try {
+                    if (nodeback.getParent().curX == visitedList.get(i).curX && nodeback.getParent().curY == visitedList.get(i).curY) {
+                        nodeback = visitedList.get(i);
+                    }
+                } catch (NullPointerException io) {
+                    nodeback = null;
+                    break;
+                }
+
+            }
+
         }
 
         return stepsMatrix;
@@ -216,7 +235,8 @@ public class LRTA_Star {
                     if(mode == 1){
                         stepsMatrix[counter] = i * this.grid.getNumOfColumns() + j;
                     }
-                    totalCost += this.grid.getCell(i,j).getCost();
+                    int currentVal = this.grid.getCell(i,j).isGrass() ? 10 : 1;
+                    totalCost += currentVal;
                     counter++;
                 }
 

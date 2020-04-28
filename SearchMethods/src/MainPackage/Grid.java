@@ -22,7 +22,6 @@ public class Grid {
 	private int start_idx = 96;
 	private int terminal_idx = 42;
 	private int grass_cost = 2;
-	private Cell parentCell;
 
 	Grid(){
 		this.init();
@@ -245,7 +244,7 @@ public class Grid {
 	}
 
 	/**
-	 * Updated
+	 * LEGACY
 	 * This method returns the created array in a 2D array. Better for visualization
 	 * @return int[][]
 	 */

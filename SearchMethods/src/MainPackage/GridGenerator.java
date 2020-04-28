@@ -83,8 +83,6 @@ class GridGenerator{
 			}
 
 
-//		}while(userChoice != 1 && userChoice != 2 && userChoice != 3 && userChoice != 4);
-
 
 		if(userChoice == 1){	//BFS choice
 			BFS mybfs = new BFS(mygrid, mygrid.getStart()[0],mygrid.getStart()[1]);
@@ -132,9 +130,9 @@ class GridGenerator{
 			GridGenerator.VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mystar.getStepsMatrix(),mygrid.getStartidx(),mygrid.getTerminalidx());
 
 		}else if(userChoice == 4){
-			LRTA_Star mystar = new LRTA_Star(mygrid, mygrid.getStart()[0],mygrid.getStart()[1]);
+			LRTA_Star mynewstar = new LRTA_Star(mygrid, mygrid.getStart()[0],mygrid.getStart()[1]);
 
-			int result = mystar.LRTA_StarSearch();
+			int result = mynewstar.LRTA_StarSearch();
 
 			if(result == -1){
 				System.out.println("Something went wrong could not find route!");
@@ -142,9 +140,9 @@ class GridGenerator{
 				System.out.println("Best path cost: " + result);
 			}
 
-			int[] all_steps = mystar.getAllStepsMatrix(0);
+			int[] all_steps = mynewstar.getAllStepsMatrix(0);
 
-			GridGenerator.VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mystar.getStepsMatrix(),mygrid.getStartidx(),mygrid.getTerminalidx());
+			GridGenerator.VisualizeGrid(frame,N,M,mygrid.getWalls(),mygrid.getGrass(),mynewstar.getStepsMatrix(),mygrid.getStartidx(),mygrid.getTerminalidx());
 
 		}
 		//Re-initialize every time visited table to get right results
