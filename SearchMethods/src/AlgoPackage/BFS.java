@@ -192,6 +192,7 @@ public class BFS {
                 try {
                     if (nodeback.getParent().curX == visitedList.get(i).curX && nodeback.getParent().curY == visitedList.get(i).curY) {
                         nodeback = visitedList.get(i);
+                        break;
                     }
                 } catch (NullPointerException io) {
                     nodeback = null;

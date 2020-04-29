@@ -92,7 +92,7 @@ public class LRTA_Star {
         while(currentNode != null){
 
             if (this.grid.getCell(currentNode.curX,currentNode.curY).isTerminal()){
-                this.visitedList.addLast(currentNode);
+                //this.visitedList.addLast(currentNode);
                 returnValue = currentNode.bestPathCost;
                 return returnValue;
             }
@@ -105,7 +105,7 @@ public class LRTA_Star {
 
             /**
              * Starting searching all your neighbours for min f value and assign it to
-             * h(heuristic value) of current Node. We also do online search
+             * h(heuristic value) of current Node.
              */
             if(isValid(currentNode.curX,currentNode.curY-1)){
                 this.grid.setCellVisited(currentNode.curX,currentNode.curY-1);
@@ -206,6 +206,8 @@ public class LRTA_Star {
                 try {
                     if (nodeback.getParent().curX == visitedList.get(i).curX && nodeback.getParent().curY == visitedList.get(i).curY) {
                         nodeback = visitedList.get(i);
+                        visitedList.remove(i);
+                        break;
                     }
                 } catch (NullPointerException io) {
                     nodeback = null;
