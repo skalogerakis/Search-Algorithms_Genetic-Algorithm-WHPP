@@ -8,16 +8,16 @@ My implementation of search methods DFS, BFS, A*, Online LTRA* and Genetic Algor
 
 - Genetic Algorithm execution 
 
-- Go to  /Genetic-Algorithm folder
-- Simply execute java jar with file name **Genetic-Algorithm.jar**. For example execution in linux with the command 
+1. Go to  /Genetic-Algorithm folder
+2. Simply execute java jar with file name **Genetic-Algorithm.jar**. For example execution in linux with the command 
 ```sh
 $ java -jar Genetic-Algorithm.jar
 ```
 
 - Search Methods execution
 
-- Go to /SearchMethods
-- Simply execute java jar with file name **SearchMethods.jar**. There is also another folder /world_examples, which inluedes some sample worlds requested in the reports .For a full example execution in linux with the command 
+1. Go to /SearchMethods
+2. Simply execute java jar with file name **SearchMethods.jar**. There is also another folder /world_examples, which inluedes some sample worlds requested in the reports .For a full example execution in linux with the command 
 ```sh
 $ java -jar SearchMethods.jar -i world_examples/hard_b.world
 ```
